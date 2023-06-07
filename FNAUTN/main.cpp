@@ -1,6 +1,9 @@
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
+using namespace std;
+
+void perspectiveImage(int ID, string textureName, Sprite sprite, Sprite renderSprite, Shader& shader, RenderTexture& renderTexture, Vector2i screen, RenderWindow& window);
 
 int main()
 {
@@ -9,41 +12,13 @@ int main()
     screen.x = VideoMode::getDesktopMode().width;
     screen.y = VideoMode::getDesktopMode().height;
 
-
-
-    if (!Shader::isAvailable())
-    {
-
-    }
-
-    Shader shader;
-    // load only the fragment shader
-    if (!shader.loadFromFile("fragment_shader.frag", Shader::Fragment))
-    {
-        //return 0;
-        system("pause");
-    }
-    shader.setUniform("texture", Shader::CurrentTexture);
-    shader.setUniform("screen", Vector2f(screen.x, screen.y));
-
-
-
-
-    //CircleShape shape(100.f);
-    //shape.setFillColor(Color::Green);
-    Texture texture;
-    texture.setSmooth(true);
-    if (!texture.loadFromFile("equirectangulartest.png", IntRect(0, 0, 3600, 900)))
-    {
-        // error...
-    }
-
     Sprite sprite;
-    sprite.setTexture(texture);
+    Sprite renderSprite;
+    Shader shader;
+    RenderTexture renderTexture;
 
-    Vector2i mPos(0, 0);
 
-    //sprite.setOrigin(-1600/2, -3704/2);
+    perspectiveImage(0, "equirectangulartest.png", sprite, renderSprite, shader, renderTexture, screen, window);
 
     while (window.isOpen())
     {
@@ -55,24 +30,61 @@ int main()
         }
 
         window.clear();
-        //window.draw(shape);
 
-        mPos.x = Mouse::getPosition(window).x;
-        mPos.y = Mouse::getPosition(window).y;
-        if (mPos.x > 1600 * 0.8 && sprite.getPosition().x > -(3600-1600)){
-            sprite.move(-0.5, 0);
-        }
-        if (mPos.x < 1600 * 0.2 && sprite.getPosition().x < 0){
-            sprite.move(0.5, 0);
-        }
-
-        if (Keyboard::isKeyPressed(Keyboard::Escape)){///detecta cuando Escape está siendo presionado
+        if (Keyboard::isKeyPressed(Keyboard::Escape)){
             return 0;
         }
 
-        window.draw(sprite, &shader);
+        perspectiveImage(1, "equirectangulartest.png", sprite, renderSprite, shader, renderTexture, screen, window);
+
         window.display();
     }
 
     return 0;
+}
+
+void perspectiveImage(int ID, string textureName, Sprite sprite, Sprite renderSprite, string shaderName, Shader& shader, RenderTexture& renderTexture, Vector2f screen, RenderWindow& window){
+
+    Vector2i mPos(0, 0);
+    switch(ID){
+    case 0:{
+    Texture texture;
+    if (!texture.loadFromFile(textureName))
+    {
+
+    }
+    if (!Shader::isAvailable())
+    {
+
+    }
+    if (!shader.loadFromFile("perspective.frag", Shader::Fragment))
+    {
+
+    }
+
+    sprite.setTexture(texture);
+    renderTexture.create(screen.x, screen.y);
+    renderSprite.setTexture(renderTexture.getTexture());
+    renderSprite.setScale(1.0, -1.0);
+    renderSprite.setPosition(0.0, 900.0);
+
+    shader.setUniform("texture", Shader::CurrentTexture);
+    }
+        break;
+    case 1:
+        mPos.x = Mouse::getPosition(window).x;
+        mPos.y = Mouse::getPosition(window).y;
+        if (mPos.x > 1600 * 0.8 && sprite.getPosition().x > -(3600-1600)){
+            sprite.move(-0.8, 0);
+        }
+        if (mPos.x < 1600 * 0.2 && sprite.getPosition().x < 0){
+            sprite.move(0.8, 0);
+        }
+
+        window.draw(renderSprite, &shader);
+        renderTexture.draw(sprite);
+        break;
+    }
+
+
 }

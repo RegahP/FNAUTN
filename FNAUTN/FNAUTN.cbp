@@ -9,8 +9,9 @@
 			<Target title="Debug">
 				<Option output="bin/Debug/FNAUTN" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -30,6 +31,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-DSFML_STATIC" />
 			<Add directory="C:/Users/Andres Tombo/Downloads/SFML-2.5.1/include" />
 		</Compiler>
 		<Linker>
@@ -39,7 +41,11 @@
 			<Add library="sfml-system" />
 			<Add directory="C:/Users/Andres Tombo/Downloads/SFML-2.5.1/lib" />
 		</Linker>
+		<Unit filename="drawcall.h" />
+		<Unit filename="input.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="perspective.frag" />
+		<Unit filename="player.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

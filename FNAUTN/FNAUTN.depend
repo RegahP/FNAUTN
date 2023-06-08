@@ -1,6 +1,12 @@
 # depslib dependency file v1.0
-1686121439 source:c:\users\andres tombo\documents\codeblocks\lab2\fnautn\main.cpp
+1686201807 source:c:\users\andres tombo\documents\codeblocks\lab2\fnautn\main.cpp
 	<SFML/Graphics.hpp>
+	<iostream>
+	<cstdlib>
+	<cstring>
+	"input.h"
+	"player.h"
+	"drawcall.h"
 
 1525812018 c:\users\andres tombo\downloads\sfml-2.5.1\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -410,4 +416,10 @@
 	<SFML/Graphics/PrimitiveType.hpp>
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
+
+1686203928 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\input.h
+
+1686203944 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\player.h
+
+1686203808 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\drawcall.h
 

@@ -1,2 +1,2 @@
 # FNAUTN
-five nights at universidad tecnica nacional
+five nights at universidad tecnológica nacional

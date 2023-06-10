@@ -3,20 +3,30 @@
 
 class Player{
 private:
-    int currentCam; //0 is none
+    bool isLookingAtCams;
+    int currentCam;
 
 public:
 
+    /*
     int getCurrentCam();
+    bool getLookingState();
 
     void setCurrentCam(int ID);
-
+    void toggleLookingState();
+    */
     int getCurrentCam(){
         return currentCam;
+    }
+    bool getLookingState(){
+        return isLookingAtCams;
     }
 
     void setCurrentCam(int ID){
         currentCam = ID;
+    }
+    void toggleLookingState(){
+        isLookingAtCams = !isLookingAtCams;
     }
 
 };
@@ -31,6 +41,7 @@ private:
     int generatorUsage;
 
 public:
+    /*
     bool getDoorState(bool ID);
     bool getLightState();
     int getGeneratorTemp();
@@ -41,7 +52,7 @@ public:
     void startGeneratorTemp(int temp);
     void updateGeneratorTemp(int usage);
     void setGeneratorUsage(int currentCam);
-
+    */
     bool getDoorState(bool ID){
         if (ID == 0){
             return leftDoor;

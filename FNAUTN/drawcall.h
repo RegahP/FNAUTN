@@ -60,13 +60,13 @@ int DrawOffice(RenderWindow& window, Player player){
             return 0;
         }
 
-        if (!player.lookingAtCams){
+        if (!player.getLookingState()){
 
             if (mPos.x > 1600 * 0.8 && sprite.getPosition().x > -(3600-1600)){
-                sprite.move(-0.8, 0);
+                sprite.move(-0.85, 0);
             }
             if (mPos.x < 1600 * 0.2 && sprite.getPosition().x < 0){
-                sprite.move(0.8, 0);
+                sprite.move(0.85, 0);
             }
 
             window.draw(renderSprite, &shader);

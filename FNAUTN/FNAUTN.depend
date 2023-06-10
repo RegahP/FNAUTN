@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1686201807 source:c:\users\andres tombo\documents\codeblocks\lab2\fnautn\main.cpp
+1686231518 source:c:\users\andres tombo\documents\codeblocks\lab2\fnautn\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	<cstdlib>
@@ -419,7 +419,7 @@
 
 1686203928 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\input.h
 
-1686203944 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\player.h
+1686357483 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\player.h
 
-1686203808 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\drawcall.h
+1686348457 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\drawcall.h
 

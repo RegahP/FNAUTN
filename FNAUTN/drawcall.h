@@ -35,8 +35,8 @@ int DrawOffice(RenderWindow& window, Player player){
 
     Vector2i mPos(0, 0);
 
-    Sprite camHoverButtonSprite = player.DrawCamButton();
-    camHoverButtonSprite.setPosition(screen.x/2 - camHoverButtonSprite.getTextureRect().width/2 , screen.y - camHoverButtonSprite.getTextureRect().height);
+    //Sprite camHoverButtonSprite = player.DrawCamButton();
+    //camHoverButtonSprite.setPosition(screen.x/2 - camHoverButtonSprite.getTextureRect().width/2 , screen.y - camHoverButtonSprite.getTextureRect().height);
 
 
     while (window.isOpen())
@@ -49,9 +49,9 @@ int DrawOffice(RenderWindow& window, Player player){
         {
             if (event.type == Event::Closed)
                 window.close();
-            player.CheckCams(mPos, event);
-            player.CheckLight(event);
-            texture = player.tempTexture;
+            //player.CheckCams(mPos, event);
+            //player.CheckLight(event);
+            //texture = player.tempTexture;
         }
 
         window.clear();
@@ -72,7 +72,7 @@ int DrawOffice(RenderWindow& window, Player player){
             window.draw(renderSprite, &shader);
             renderTexture.draw(sprite);
         }
-        window.draw(camHoverButtonSprite);
+        //window.draw(camHoverButtonSprite);
 
         window.display();
     }

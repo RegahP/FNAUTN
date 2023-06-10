@@ -12,7 +12,7 @@ using namespace std;
 
 int main()
 {
-    RenderWindow window(VideoMode(1600, 900), "Holy Fuck Lois I'm Cumming", Style::Fullscreen);
+    RenderWindow window(VideoMode(1600, 900), "Holy Fuck Lois I'm Cumming", Style::Default);
     window.setKeyRepeatEnabled(false);
 
     Player player;

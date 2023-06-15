@@ -67,4 +67,13 @@ Texture SetTexture(string textureName){
     return texture;
 }
 
+void HorizontalScroll (Sprite* sprite, Vector2i mPos, Vector2i screen){
+    if (mPos.x > screen.x * 0.85 && sprite->getPosition().x > -(sprite->getTextureRect().width-screen.x)){
+        sprite->move(-1.5, 0);
+    }
+    if (mPos.x < screen.x * 0.15 && sprite->getPosition().x < 0){
+        sprite->move(1.5, 0);
+    }
+}
+
 #endif // INPUT_H_INCLUDED

@@ -1,11 +1,14 @@
 # depslib dependency file v1.0
-1686231518 source:c:\users\andres tombo\documents\codeblocks\lab2\fnautn\main.cpp
+1686845400 source:c:\users\andres tombo\documents\codeblocks\lab2\fnautn\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	<cstdlib>
 	<cstring>
 	"input.h"
+	"office.h"
+	"render.h"
 	"player.h"
+	"room.h"
 	"drawcall.h"
 
 1525812018 c:\users\andres tombo\downloads\sfml-2.5.1\include\sfml\graphics.hpp
@@ -417,9 +420,15 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1686203928 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\input.h
+1686799894 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\input.h
 
-1686376719 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\player.h
+1686847440 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\player.h
 
-1686379564 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\drawcall.h
+1686847832 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\drawcall.h
+
+1686798836 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\room.h
+
+1686838372 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\office.h
+
+1686845472 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\render.h
 

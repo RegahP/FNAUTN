@@ -31,7 +31,6 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-DSFML_STATIC" />
 			<Add directory="C:/Users/Andres Tombo/Downloads/SFML-2.5.1/include" />
 		</Compiler>
 		<Linker>
@@ -44,8 +43,11 @@
 		<Unit filename="drawcall.h" />
 		<Unit filename="input.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="office.h" />
 		<Unit filename="perspective.frag" />
 		<Unit filename="player.h" />
+		<Unit filename="render.h" />
+		<Unit filename="room.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

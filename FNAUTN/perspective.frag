@@ -20,7 +20,7 @@ void main()
         dir = -1;
     }
 
-	coordinates = vec2(gl_TexCoord[0].x, gl_TexCoord[0].y * 0.9 + 0.1 + pixelDistanceX * (offset * 3.4 * dir)/*+ pixelDistanceX * (offset * 0.0 * dir)*/);
+	coordinates = vec2(gl_TexCoord[0].x, gl_TexCoord[0].y + pixelDistanceX * (offset * 3.5 * dir)/*+ pixelDistanceX * (offset * 0.0 * dir)*/);
 
 	vec4 pixel = texture2D(texture, coordinates);
 

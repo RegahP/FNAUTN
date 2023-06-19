@@ -15,7 +15,7 @@ using namespace std;
 
 int main()
 {
-    RenderWindow window(VideoMode(1600, 900), "Holy Fuck Lois I'm Cumming", Style::Default);
+    RenderWindow window(VideoMode(1600, 900), "Holy Fuck Lois I'm Cumming", Style::Fullscreen);
     window.setKeyRepeatEnabled(false);
 
     Vector2i screen(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height);

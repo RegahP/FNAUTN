@@ -33,7 +33,7 @@ public:
         isLookingAtCams = !isLookingAtCams;
 
         if (isLookingAtCams){
-            *pTex = SetTexture("1600x900demo.png");
+            *pTex = SetTexture("equirectangulartest1.png");
         }
         else{
             *pTex = SetTexture("equirectangulartest.png");
@@ -41,13 +41,14 @@ public:
         ///pTex->update(render.getImage());
     }
 
-    void CheckClickToggle(Event event){
+    void CheckToggleLookingState(Event event, void(Player::*func)(), Player player){
 
     switch(event.type){
         case Event::MouseButtonPressed:{
             switch(event.key.code){
                 case Mouse::Left:
-                    toggleLookingState();
+                    //toggleLookingState();
+                    player->*func();
                 break;
                 }
             break;
@@ -56,9 +57,9 @@ public:
         }
     }
 
-    Configure(Event event, Texture* tex){
+    void Configure(Event event, Texture* tex, Player player){
         pTex = tex;
-        CheckClickToggle(event);
+        CheckToggleLookingState(event, &Player::toggleLookingState, player);
     }
 
 };

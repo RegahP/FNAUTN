@@ -54,7 +54,7 @@ int Draw(RenderWindow& window, Player player, Vector2i screen){
             //player.CheckCams(mPos, event);
             //player.CheckLight(event);
             //texture = player.tempTexture;
-            player.Configure(event, &officeTex);
+            player.Configure(event, &officeTex, player);
 
         }
 

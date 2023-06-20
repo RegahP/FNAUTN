@@ -43,6 +43,7 @@
 		<Unit filename="drawcall.h" />
 		<Unit filename="input.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="map.h" />
 		<Unit filename="office.h" />
 		<Unit filename="perspective.frag" />
 		<Unit filename="player.h" />

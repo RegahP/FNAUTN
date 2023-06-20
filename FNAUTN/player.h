@@ -4,7 +4,7 @@
 class Player{
 
 private:
-    bool isLookingAtCams;
+    bool isLookingAtCams = false;
     int currentCam;
 
     Render render;
@@ -31,42 +31,95 @@ public:
     void toggleLookingState(){
         isLookingAtCams = !isLookingAtCams;
 
-        ///pTex->update(render.getImage());
     }
 
     void CheckToggleLookingState(Event event){
+
+        if (event.key.code == Keyboard::Space){
+            if (event.type == Event::KeyPressed){
+                toggleLookingState();
+            }
+        }
+    }
+
+    void CheckHoldLight(Event event, Sprite officeSpr, Office office, Vector2i mPos){
+
+        FloatRect tempHitbox = office.getHitbox(2);
+        FloatRect movingHitbox = FloatRect(tempHitbox.left + officeSpr.getPosition().x, tempHitbox.top, tempHitbox.width, tempHitbox.height);
+
+        if (CheckHover(movingHitbox, mPos)){
+            if (event.key.code == Mouse::Left){
+                if (event.type == Event::MouseButtonPressed){
+                    office.setLightState(true);
+                }
+            }
+        }
+        if (event.key.code == Mouse::Left){
+            if (event.type == Event::MouseButtonReleased){
+                office.setLightState(false);
+            }
+        }
+    }
+
+    /*void CheckToggleDoor(Event event){
 
     switch(event.type){
         case Event::MouseButtonPressed:{
             switch(event.key.code){
                 case Mouse::Left:
-                    toggleLookingState();
+                    //toggleLookingState();
                 break;
                 }
             break;
             }
         break;
         }
-    }
+    }*/
 
-    void CheckHoldLight(Event event, Office office, Vector2i mPos){
+    void CheckClickCams(Event event, Map* mapa, Vector2i mPos){
+        for (int i = 0; i < 10; i++){
+            if (CheckHover(mapa->getHitbox(i), mPos)){
+                if (event.key.code == Mouse::Left){
+                    if (event.type == Event::MouseButtonPressed){
+                        if (mapa->getToggleButtonState() >= 2 && i >= 7){
+                            mapa->setMapSprite(i);
+                            mapa->setLastCam(1, i);
+                            setCurrentCam(mapa->getLastCam(1));
+                        }
+                        else if (mapa->getToggleButtonState() < 2 && i < 7){
+                            mapa->setMapSprite(i);
+                            mapa->setLastCam(0, i);
+                            setCurrentCam(mapa->getLastCam(0));
+                        }
+                    }
+                }
+            }
+        }
 
-        if (CheckHover(FloatRect(1239, 154, 1122, 427), mPos)){
+        if (CheckHover(mapa->getToggleButtonHitbox(), mPos)){
             if (event.key.code == Mouse::Left){
                 if (event.type == Event::MouseButtonPressed){
-                    office.setLightState(true);
+                    mapa->HightlightButton();
+
+                    if (mapa->getToggleButtonState() == 1){
+                        setCurrentCam(mapa->getLastCam(1));
+                    }
+                    else if (mapa->getToggleButtonState() == 3){
+                        setCurrentCam(mapa->getLastCam(0));
+                    }
                 }
-                if (event.type == Event::MouseButtonReleased){
-                    office.setLightState(false);
+                else if (event.type == Event::MouseButtonReleased){
+                    mapa->ToggleButton();
                 }
             }
         }
     }
 
-    void Configure(Event event, Texture* tex, Office office, Vector2i mPos){
+    void Configure(Event event, Texture* tex, Sprite officeSpr, Office office, Map* mapa, Vector2i mPos){
         pTex = tex;
-        //CheckToggleLookingState(event);
-        CheckHoldLight(event, office, mPos);
+        CheckToggleLookingState(event);
+        CheckHoldLight(event, officeSpr, office, mPos);
+        CheckClickCams(event, mapa, mPos);
     }
 
 };

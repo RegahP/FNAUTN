@@ -11,6 +11,10 @@ private:
     bool rightDoor;
     bool light;
 
+    FloatRect leftDoorHitbox = FloatRect(844, 314, 222, 470);
+    FloatRect rightDoorHitbox = FloatRect(2534, 314, 222, 470);
+    FloatRect lightHitbox = FloatRect(1239, 154, 1122, 427);
+
     int generatorTemp;
     int generatorUsage;
 
@@ -38,6 +42,17 @@ public:
     }
     bool getLightState(){
         return light;
+    }
+    FloatRect getHitbox(int ID){
+        if (ID == 0){
+            return leftDoorHitbox;
+        }
+        if (ID == 1){
+            return rightDoorHitbox;
+        }
+        if (ID == 2){
+            return lightHitbox;
+        }
     }
     int getGeneratorTemp(){
         return generatorTemp;

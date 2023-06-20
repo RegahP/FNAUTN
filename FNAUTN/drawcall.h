@@ -1,9 +1,7 @@
 #ifndef DRAWCALL_H_INCLUDED
 #define DRAWCALL_H_INCLUDED
 
-Render officeRender;
-
-int Draw(RenderWindow& window, Player player, Office office, Vector2i screen){
+int Draw(RenderWindow& window, Player player, Office office, Map mapa, Vector2i screen){
 
     //SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
     if (!Shader::isAvailable())
@@ -28,7 +26,7 @@ int Draw(RenderWindow& window, Player player, Office office, Vector2i screen){
     Texture cameraTex;
     Sprite cameraSpr;
 
-    Sprite renderSprite;
+    Sprite renderSpr;
     RenderTexture renderTexture;
     renderTexture.create(screen.x, screen.y);
     renderTexture.setSmooth(true);
@@ -38,11 +36,12 @@ int Draw(RenderWindow& window, Player player, Office office, Vector2i screen){
     officeTex = SetTexture("equirectangulartest.png");
     officeSpr.setTexture(officeTex);
 
-    cameraTex = SetTexture("1600x900demo");
+    cameraTex = SetTexture("100000.png");
     cameraSpr.setTexture(cameraTex);
-    renderSprite.setScale(1.0, -1.0);
-    renderSprite.setPosition(0.0, screen.y);
-    renderSprite.setTexture(renderTexture.getTexture());
+
+    renderSpr.setScale(1.0, -1.0);
+    renderSpr.setPosition(0.0, screen.y);
+    renderSpr.setTexture(renderTexture.getTexture());
     //SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
 
     //Sprite camHoverButtonSprite = player.DrawCamButton();
@@ -51,6 +50,7 @@ int Draw(RenderWindow& window, Player player, Office office, Vector2i screen){
 
     while (window.isOpen())
     {
+        window.clear();
         mPos.x = Mouse::getPosition(window).x;
         mPos.y = Mouse::getPosition(window).y;
 
@@ -62,20 +62,24 @@ int Draw(RenderWindow& window, Player player, Office office, Vector2i screen){
             //player.CheckCams(mPos, event);
             //player.CheckLight(event);
             //texture = player.tempTexture;
-            player.Configure(event, &officeTex, office, mPos);
+            player.Configure(event, &officeTex, officeSpr, office, &mapa, mPos);
             office.Configure(&officeTex);
 
         }
 
-        officeTex.update(officeRender.getImage());
+        if (!player.getLookingState()){
 
+            Sprite *officeSprP = &officeSpr;
+            HorizontalScroll (officeSprP, mPos, screen);
 
-        Sprite *officeSprP = &officeSpr;
-        HorizontalScroll (officeSprP, mPos, screen);
-
-        window.clear();
-        window.draw(renderSprite, &shader);
-        renderTexture.draw(officeSpr);
+            window.draw(renderSpr, &shader);
+            renderTexture.draw(officeSpr);
+        }
+        else{
+            window.draw(cameraSpr);
+            window.draw(mapa.getSprite());
+            window.draw(mapa.getToggleButton());
+        }
 
         //window.draw(camHoverButtonSprite);
 

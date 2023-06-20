@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1686963022 source:c:\users\andres tombo\documents\codeblocks\lab2\fnautn\main.cpp
+1687217887 source:c:\users\andres tombo\documents\codeblocks\lab2\fnautn\main.cpp
 	<SFML/Graphics.hpp>
+	<functional>
 	<iostream>
 	<cstdlib>
 	<cstring>
 	"input.h"
-	"office.h"
 	"render.h"
+	"office.h"
 	"player.h"
 	"room.h"
 	"drawcall.h"
@@ -422,13 +423,13 @@
 
 1686867471 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\input.h
 
-1687212671 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\player.h
+1687220372 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\player.h
 
-1686847832 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\drawcall.h
+1687219581 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\drawcall.h
 
 1686798836 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\room.h
 
-1686838372 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\office.h
+1687220304 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\office.h
 
 1686845472 c:\users\andres tombo\documents\codeblocks\lab2\fnautn\render.h
 

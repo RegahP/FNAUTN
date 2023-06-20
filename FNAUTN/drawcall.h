@@ -3,7 +3,7 @@
 
 Render officeRender;
 
-int Draw(RenderWindow& window, Player player, Vector2i screen){
+int Draw(RenderWindow& window, Player player, Office office, Vector2i screen){
 
     //SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
     if (!Shader::isAvailable())
@@ -21,8 +21,13 @@ int Draw(RenderWindow& window, Player player, Vector2i screen){
 
     //INITS INITS INITS INITS INITS INITS INITS INITS INITS
     Vector2i mPos(0, 0);
+
     Texture officeTex;
     Sprite officeSpr;
+
+    Texture cameraTex;
+    Sprite cameraSpr;
+
     Sprite renderSprite;
     RenderTexture renderTexture;
     renderTexture.create(screen.x, screen.y);
@@ -32,6 +37,9 @@ int Draw(RenderWindow& window, Player player, Vector2i screen){
     //SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
     officeTex = SetTexture("equirectangulartest.png");
     officeSpr.setTexture(officeTex);
+
+    cameraTex = SetTexture("1600x900demo");
+    cameraSpr.setTexture(cameraTex);
     renderSprite.setScale(1.0, -1.0);
     renderSprite.setPosition(0.0, screen.y);
     renderSprite.setTexture(renderTexture.getTexture());
@@ -54,7 +62,8 @@ int Draw(RenderWindow& window, Player player, Vector2i screen){
             //player.CheckCams(mPos, event);
             //player.CheckLight(event);
             //texture = player.tempTexture;
-            player.Configure(event, &officeTex, player);
+            player.Configure(event, &officeTex, office, mPos);
+            office.Configure(&officeTex);
 
         }
 

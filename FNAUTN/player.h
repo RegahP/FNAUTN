@@ -10,7 +10,6 @@ private:
     Render render;
     Texture* pTex;
 
-
 public:
     /*
     int getCurrentCam();
@@ -32,23 +31,16 @@ public:
     void toggleLookingState(){
         isLookingAtCams = !isLookingAtCams;
 
-        if (isLookingAtCams){
-            *pTex = SetTexture("equirectangulartest1.png");
-        }
-        else{
-            *pTex = SetTexture("equirectangulartest.png");
-        }
         ///pTex->update(render.getImage());
     }
 
-    void CheckToggleLookingState(Event event, void(Player::*func)(), Player player){
+    void CheckToggleLookingState(Event event){
 
     switch(event.type){
         case Event::MouseButtonPressed:{
             switch(event.key.code){
                 case Mouse::Left:
-                    //toggleLookingState();
-                    player->*func();
+                    toggleLookingState();
                 break;
                 }
             break;
@@ -57,9 +49,24 @@ public:
         }
     }
 
-    void Configure(Event event, Texture* tex, Player player){
+    void CheckHoldLight(Event event, Office office, Vector2i mPos){
+
+        if (CheckHover(FloatRect(1239, 154, 1122, 427), mPos)){
+            if (event.key.code == Mouse::Left){
+                if (event.type == Event::MouseButtonPressed){
+                    office.setLightState(true);
+                }
+                if (event.type == Event::MouseButtonReleased){
+                    office.setLightState(false);
+                }
+            }
+        }
+    }
+
+    void Configure(Event event, Texture* tex, Office office, Vector2i mPos){
         pTex = tex;
-        CheckToggleLookingState(event, &Player::toggleLookingState, player);
+        //CheckToggleLookingState(event);
+        CheckHoldLight(event, office, mPos);
     }
 
 };

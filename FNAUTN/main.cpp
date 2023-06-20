@@ -1,4 +1,5 @@
-#include <SFML/Graphics.hpp>
+# include<SFML/Graphics.hpp>
+# include<functional>
 # include<iostream>
 # include<cstdlib>
 # include<cstring>
@@ -7,8 +8,8 @@ using namespace sf;
 using namespace std;
 
 # include "input.h"
-# include "office.h"
 # include "render.h"
+# include "office.h"
 # include "player.h"
 # include "room.h"
 # include "drawcall.h"
@@ -21,8 +22,9 @@ int main()
     Vector2i screen(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height);
 
     Player player;
+    Office office;
 
-    Draw(window, player, screen);
+    Draw(window, player, office, screen);
 
     return 0;
 }

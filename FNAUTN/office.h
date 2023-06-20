@@ -14,6 +14,9 @@ private:
     int generatorTemp;
     int generatorUsage;
 
+    Render render;
+    Texture* oTex;
+
 public:
     /*
     bool getDoorState(bool ID);
@@ -65,6 +68,12 @@ public:
     }
     void setLightState(bool ID){
         light = ID;
+        if (light){
+            *oTex = SetTexture("equirectangulartest1.png");
+        }
+        else{
+            *oTex = SetTexture("equirectangulartest.png");
+        }
     }
     void startGeneratorTemp(int temp){
         generatorTemp = temp;
@@ -92,6 +101,9 @@ public:
         generatorUsage = usage;
     }
 
+    void Configure(Texture* tex){
+        oTex = tex;
+    }
 };
 
 /*

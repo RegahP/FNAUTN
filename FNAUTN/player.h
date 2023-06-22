@@ -7,7 +7,6 @@ private:
     bool isLookingAtCams = false;
     int currentCam;
 
-    Render render;
     Texture* pTex;
 
 public:
@@ -91,6 +90,7 @@ public:
                             mapa->setLastCam(0, i);
                             setCurrentCam(mapa->getLastCam(0));
                         }
+                        mapa->setCameraSprite(currentCam);
                     }
                 }
             }
@@ -110,6 +110,7 @@ public:
                 }
                 else if (event.type == Event::MouseButtonReleased){
                     mapa->ToggleButton();
+                    mapa->setCameraSprite(currentCam);
                 }
             }
         }

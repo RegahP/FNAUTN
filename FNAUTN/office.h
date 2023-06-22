@@ -18,7 +18,6 @@ private:
     int generatorTemp;
     int generatorUsage;
 
-    Render render;
     Texture* oTex;
 
 public:
@@ -84,10 +83,10 @@ public:
     void setLightState(bool ID){
         light = ID;
         if (light){
-            *oTex = SetTexture("equirectangulartest1.png");
+            *oTex = SetTexture("equirectangulartest1");
         }
         else{
-            *oTex = SetTexture("equirectangulartest.png");
+            *oTex = SetTexture("equirectangulartest");
         }
     }
     void startGeneratorTemp(int temp){

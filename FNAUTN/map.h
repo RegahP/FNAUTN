@@ -17,6 +17,11 @@ private:
     FloatRect toggleButtonHitbox;
     int toggleButtonState = 0;
 
+    Texture* mTex;
+
+    Profe* globalProfes;
+    Room* globalRooms;
+
 public:
     FloatRect getHitbox(int ID){
         return hitboxes[ID];
@@ -98,22 +103,40 @@ public:
         toggleButtonHitbox.top += pos.y;
     }
 
-    Map(){
-        cams[0] = SetTexture("textures/1a.png");
-        cams[1] = SetTexture("textures/2a.png");
-        cams[2] = SetTexture("textures/3.png");
-        cams[3] = SetTexture("textures/4.png");
-        cams[4] = SetTexture("textures/5.png");
-        cams[5] = SetTexture("textures/6.png");
-        cams[6] = SetTexture("textures/7.png");
-        cams[7] = SetTexture("textures/1b.png");
-        cams[8] = SetTexture("textures/2b.png");
-        cams[9] = SetTexture("textures/8.png");
+    void setCameraSprite(int ID){
 
-        toggleButtonTextures[0] = SetTexture("textures/baja.png");
-        toggleButtonTextures[1] = SetTexture("textures/bajaHold.png");
-        toggleButtonTextures[2] = SetTexture("textures/alta.png");
-        toggleButtonTextures[3] = SetTexture("textures/altaHold.png");
+        Vector2i profesPos[4];
+
+        cout<<endl;
+        for(int i = 0; i < 4; i++){
+            profesPos[i] = globalProfes[i].getPos();
+            cout<<"profe "<<i<<": "<<profesPos[i].x<<", "<<profesPos[i].y<<endl;
+        }
+        *mTex = SetTexture(globalRooms[ID].getTextureID(profesPos));
+    }
+
+    void Configure(Texture* tex, Profe profes[], Room rooms[]){
+        mTex = tex;
+        globalProfes = profes;
+        globalRooms = rooms;
+    }
+
+    Map(){
+        cams[0] = SetTexture("textures/1a");
+        cams[1] = SetTexture("textures/2a");
+        cams[2] = SetTexture("textures/3");
+        cams[3] = SetTexture("textures/4");
+        cams[4] = SetTexture("textures/5");
+        cams[5] = SetTexture("textures/6");
+        cams[6] = SetTexture("textures/7");
+        cams[7] = SetTexture("textures/1b");
+        cams[8] = SetTexture("textures/2b");
+        cams[9] = SetTexture("textures/8");
+
+        toggleButtonTextures[0] = SetTexture("textures/baja");
+        toggleButtonTextures[1] = SetTexture("textures/bajaHold");
+        toggleButtonTextures[2] = SetTexture("textures/alta");
+        toggleButtonTextures[3] = SetTexture("textures/altaHold");
 
         hitboxes[0] = FloatRect(323, 120, 23, 17);
         hitboxes[1] = FloatRect(129, 66, 23, 17);

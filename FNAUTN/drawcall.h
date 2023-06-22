@@ -1,7 +1,7 @@
 #ifndef DRAWCALL_H_INCLUDED
 #define DRAWCALL_H_INCLUDED
 
-int Draw(RenderWindow& window, Player player, Office office, Map mapa, Vector2i screen){
+int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe globalProfes[], Room globalRooms[], Vector2i screen){
 
     //SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
     if (!Shader::isAvailable())
@@ -33,10 +33,10 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Vector2i 
     //INITS INITS INITS INITS INITS INITS INITS INITS INITS
 
     //SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
-    officeTex = SetTexture("equirectangulartest.png");
+    officeTex = SetTexture("equirectangulartest");
     officeSpr.setTexture(officeTex);
 
-    cameraTex = SetTexture("100000.png");
+    cameraTex = SetTexture("00000");
     cameraSpr.setTexture(cameraTex);
 
     renderSpr.setScale(1.0, -1.0);
@@ -64,6 +64,8 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Vector2i 
             //texture = player.tempTexture;
             player.Configure(event, &officeTex, officeSpr, office, &mapa, mPos);
             office.Configure(&officeTex);
+            mapa.Configure(&cameraTex, globalProfes, globalRooms);
+
 
         }
 

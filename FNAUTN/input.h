@@ -60,7 +60,8 @@ bool CheckSpaceToggle( bool flag, Event event){
 Texture SetTexture(string textureName){
 
     Texture texture;
-    if (!texture.loadFromFile(textureName))
+    string extension = ".png";
+    if (!texture.loadFromFile(textureName+extension))
     {
         cout<<"failed to load "<<textureName<<endl;
     }

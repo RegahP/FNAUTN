@@ -17,7 +17,7 @@ using namespace std;
 
 int main()
 {
-    RenderWindow window(VideoMode(1600, 900), "FNAUTN", Style::Default);
+    RenderWindow window(VideoMode(1600, 900), "FNAUTN", Style::Fullscreen);
     Image icon;
     if (icon.loadFromFile("mrklostertransparent.png")){
 
@@ -32,10 +32,10 @@ int main()
     Office office;
 
     Profe globalProfes[4]; // i  r  s
-    globalProfes[0].Configure(0, 4, 4, 5, 5);
-    globalProfes[1].Configure(1, 9, 1, 5, 5);
-    globalProfes[2].Configure(2, 4, 1, 5, 5);
-    globalProfes[3].Configure(3, 6, 1, 5, 5);
+    globalProfes[0].Configure(0, 40, 4, 5, 5); //4
+    globalProfes[1].Configure(1, 90, 1, 5, 5); //9
+    globalProfes[2].Configure(2, 40, 1, 5, 5); //4
+    globalProfes[3].Configure(3, 60, 1, 5, 5); //6
 
     Room globalRooms[10];
     globalRooms[0].Configure(0, 11, 4);
@@ -49,7 +49,7 @@ int main()
     globalRooms[8].Configure(8, 2, 1);
     globalRooms[9].Configure(9, 3, 1);
 
-    Map mapa;
+    Map mapa(screen);
 
     Draw(window, player, office, mapa, globalProfes, globalRooms, screen);
 

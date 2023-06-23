@@ -45,6 +45,7 @@ public:
             textureID += bits[i];
         }
 
+        cout<<textureID<<endl;
         return textureID;
 
     }

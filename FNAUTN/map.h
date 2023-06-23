@@ -18,6 +18,7 @@ private:
     int toggleButtonState = 0;
 
     Texture* mTex;
+    Vector2i mScr;
 
     Profe* globalProfes;
     Room* globalRooms;
@@ -77,7 +78,7 @@ public:
             toggleButtonState = 3;
         }
     }
-    void setScale(int scale){
+    void setScale(float scale){
         mapSprite.setScale(scale, scale);
         toggleButtonSprite.setScale(scale, scale);
         for (int i = 0; i < 10; i++){
@@ -121,7 +122,7 @@ public:
         globalRooms = rooms;
     }
 
-    Map(){
+    Map(Vector2i screen){
         cams[0] = SetTexture("textures/1a");
         cams[1] = SetTexture("textures/2a");
         cams[2] = SetTexture("textures/3");
@@ -153,8 +154,9 @@ public:
 
         setMapSprite(0);
         toggleButtonSprite.setTexture(toggleButtonTextures[0]);
-        setScale(2);
-        setPosition(Vector2i(50, 50));
+        int scale = 2;
+        setScale(scale);
+        setPosition(Vector2i(30, screen.y - mapSprite.getTextureRect().height * scale - 30));
     }
 };
 

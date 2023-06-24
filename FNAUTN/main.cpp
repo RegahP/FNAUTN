@@ -30,6 +30,8 @@ int main()
 
     Player player;
     Office office;
+    Clock clock;
+    Time time;
 
     Profe globalProfes[4]; // i  r  s
     globalProfes[0].Configure(0, 40, 4, 5, 5); //4
@@ -51,7 +53,10 @@ int main()
 
     Map mapa(screen);
 
-    Draw(window, player, office, mapa, globalProfes, globalRooms, screen);
+    office.startClock(&clock);
+    office.startGeneratorTemp(190);
+
+    Draw(window, player, office, mapa, globalProfes, globalRooms, screen, &clock);
 
     return 0;
 }

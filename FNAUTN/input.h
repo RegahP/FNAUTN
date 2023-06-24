@@ -70,10 +70,10 @@ Texture SetTexture(string textureName){
 
 void HorizontalScroll (Sprite* sprite, Vector2i mPos, Vector2i screen){
     if (mPos.x > screen.x * 0.85 && sprite->getPosition().x > -(sprite->getTextureRect().width-screen.x)){
-        sprite->move(screen.x * -0.001, 0);
+        sprite->move(screen.x * -0.0015, 0);
     }
     if (mPos.x < screen.x * 0.15 && sprite->getPosition().x < 0){
-        sprite->move(screen.x * 0.001, 0);
+        sprite->move(screen.x * 0.0015, 0);
     }
 }
 

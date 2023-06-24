@@ -41,21 +41,21 @@ public:
         }
     }
 
-    void CheckHoldLight(Event event, Sprite officeSpr, Office office, Vector2i mPos){
+    void CheckHoldLight(Event event, Sprite officeSpr, Office* office, Vector2i mPos){
 
-        FloatRect tempHitbox = office.getHitbox(2);
+        FloatRect tempHitbox = office->getHitbox(2);
         FloatRect movingHitbox = FloatRect(tempHitbox.left + officeSpr.getPosition().x, tempHitbox.top, tempHitbox.width, tempHitbox.height);
 
         if (CheckHover(movingHitbox, mPos)){
             if (event.key.code == Mouse::Left){
                 if (event.type == Event::MouseButtonPressed){
-                    office.setLightState(true);
+                    office->setLightState(true);
                 }
             }
         }
         if (event.key.code == Mouse::Left){
             if (event.type == Event::MouseButtonReleased){
-                office.setLightState(false);
+                office->setLightState(false);
             }
         }
     }
@@ -116,7 +116,7 @@ public:
         }
     }
 
-    void Configure(Event event, Texture* tex, Sprite officeSpr, Office office, Map* mapa, Vector2i mPos){
+    void Configure(Event event, Texture* tex, Sprite officeSpr, Office* office, Map* mapa, Vector2i mPos){
         pTex = tex;
         CheckToggleLookingState(event);
         CheckHoldLight(event, officeSpr, office, mPos);

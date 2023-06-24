@@ -1,7 +1,7 @@
 #ifndef DRAWCALL_H_INCLUDED
 #define DRAWCALL_H_INCLUDED
 
-int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe globalProfes[], Room globalRooms[], Vector2i screen){
+int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe globalProfes[], Room globalRooms[], Vector2i screen, Clock* clock){
 
     //SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
     if (!Shader::isAvailable())
@@ -62,7 +62,7 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
             //player.CheckCams(mPos, event);
             //player.CheckLight(event);
             //texture = player.tempTexture;
-            player.Configure(event, &officeTex, officeSpr, office, &mapa, mPos);
+            player.Configure(event, &officeTex, officeSpr, &office, &mapa, mPos);
             office.Configure(&officeTex);
             mapa.Configure(&cameraTex, globalProfes, globalRooms);
 
@@ -89,6 +89,10 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
         if (Keyboard::isKeyPressed(Keyboard::Escape)){
             return 0;
         }
+    office.setGeneratorUsage(player.getLookingState());
+    float usage = office.getGeneratorUsage();
+    office.updateGeneratorTemp(usage, clock);
+    cout<<office.getLightState()<<endl;
     }
 }
 

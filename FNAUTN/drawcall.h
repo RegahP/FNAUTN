@@ -20,8 +20,12 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
     ///INITS INITS INITS INITS INITS INITS INITS INITS INITS
     Vector2i mPos(0, 0);
 
-    Texture officeTex;
-    Sprite officeSpr;
+    Texture windowTex;
+    Sprite windowSpr;
+    Texture lDoorTex;
+    Sprite lDoorSpr;
+    Texture rDoorTex;
+    Sprite rDoorSpr;
 
     Texture cameraTex;
     Sprite cameraSpr;
@@ -33,11 +37,18 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
     ///INITS INITS INITS INITS INITS INITS INITS INITS INITS
 
     ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
-    officeTex = SetTexture("equirectangulartest");
-    officeSpr.setTexture(officeTex);
+    lDoorTex = SetTexture("office/L00");
+    lDoorSpr.setTexture(lDoorTex);
+    windowTex = SetTexture("office/FFFFF");
+    windowSpr.setTexture(windowTex);
+    rDoorTex = SetTexture("office/R00");
+    rDoorSpr.setTexture(rDoorTex);
 
-    cameraTex = SetTexture("00000");
+    cameraTex = SetTexture("cameras/00000");
     cameraSpr.setTexture(cameraTex);
+
+    windowSpr.setPosition(1130, 0);
+    rDoorSpr.setPosition(2470, 0);
 
     renderSpr.setScale(1.0, -1.0);
     renderSpr.setPosition(0.0, screen.y);
@@ -58,8 +69,8 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
             //player.CheckCams(mPos, event);
             //player.CheckLight(event);
             //texture = player.tempTexture;
-            player.Configure(event, &officeTex, officeSpr, &office, &mapa, mPos);
-            office.Configure(&officeTex);
+            player.Configure(event, lDoorSpr, &office, &mapa, mPos);
+            office.Configure(&lDoorTex, &windowTex, &rDoorTex);
             mapa.Configure(&cameraTex, globalProfes, globalRooms);
         }
 
@@ -74,18 +85,22 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
 
         if (!player.getLookingState()){
 
-            Sprite *officeSprP = &officeSpr;
-            HorizontalScroll (officeSprP, mPos, screen);
+            HorizontalScroll (&lDoorSpr, &windowSpr, &rDoorSpr, mPos, screen);
 
+            renderTexture.draw(lDoorSpr);
+            renderTexture.draw(windowSpr);
+            renderTexture.draw(rDoorSpr);
             window.draw(renderSpr, &shader);
-            renderTexture.draw(officeSpr);
+
         }
         else{
             window.draw(cameraSpr);
             window.draw(mapa.getSprite());
             window.draw(mapa.getToggleButton());
-        }
 
+        }
+        window.draw(office.getGeneratorTempUI());
+        window.draw(office.getGeneratorUsageUI());
         window.display();
         if (Keyboard::isKeyPressed(Keyboard::Escape)){
             return 0;

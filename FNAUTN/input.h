@@ -68,12 +68,20 @@ Texture SetTexture(string textureName){
     return texture;
 }
 
-void HorizontalScroll (Sprite* sprite, Vector2i mPos, Vector2i screen){
-    if (mPos.x > screen.x * 0.85 && sprite->getPosition().x > -(sprite->getTextureRect().width-screen.x)){
-        sprite->move(screen.x * -0.001, 0);
+void HorizontalScroll (Sprite* lDoor, Sprite* window, Sprite* rDoor, Vector2i mPos, Vector2i screen){
+
+    float mult = 0.001;
+    if (mPos.x > screen.x * 0.85 && rDoor->getPosition().x > -(rDoor->getTextureRect().width-screen.x)){
+        lDoor->move(screen.x * -mult, 0);
+        window->move(screen.x * -mult, 0);
+        rDoor->move(screen.x * -mult, 0);
     }
-    if (mPos.x < screen.x * 0.15 && sprite->getPosition().x < 0){
-        sprite->move(screen.x * 0.001, 0);
+
+    if (mPos.x < screen.x * 0.15 && lDoor->getPosition().x < 0){
+
+        lDoor->move(screen.x * mult, 0);
+        window->move(screen.x * mult, 0);
+        rDoor->move(screen.x * mult, 0);
     }
 }
 

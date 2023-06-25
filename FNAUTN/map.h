@@ -113,7 +113,8 @@ public:
             profesPos[i] = globalProfes[i].getPos();
             cout<<"profe "<<i<<": "<<profesPos[i].x<<", "<<profesPos[i].y<<endl;
         }
-        *mTex = SetTexture(globalRooms[ID].getTextureID(profesPos));
+        *mTex = SetTexture("cameras/" + globalRooms[ID].getTextureID(profesPos));
+        cout<<"cameras/" + globalRooms[ID].getTextureID(profesPos)<<endl;
     }
 
     void Configure(Texture* tex, Profe profes[], Room rooms[]){

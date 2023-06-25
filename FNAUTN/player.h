@@ -7,8 +7,6 @@ private:
     bool isLookingAtCams = false;
     int currentCam;
 
-    Texture* pTex;
-
 public:
     /*
     int getCurrentCam();
@@ -43,10 +41,10 @@ public:
         }
     }
 
-    void CheckHoldLight(Event event, Sprite officeSpr, Office* office, Vector2i mPos){
+    void CheckHoldLight(Event event, Sprite lDoorSpr, Office* office, Vector2i mPos){
 
         FloatRect tempHitbox = office->getHitbox(2);
-        FloatRect movingHitbox = FloatRect(tempHitbox.left + officeSpr.getPosition().x, tempHitbox.top, tempHitbox.width, tempHitbox.height);
+        FloatRect movingHitbox = FloatRect(tempHitbox.left + lDoorSpr.getPosition().x, tempHitbox.top, tempHitbox.width, tempHitbox.height);
 
         if (CheckHover(movingHitbox, mPos)){
             if (event.key.code == Mouse::Left){
@@ -65,20 +63,31 @@ public:
         }
     }
 
-    /*void CheckToggleDoor(Event event){
+    void CheckToggleDoors(Event event, Sprite lDoorSpr, Office* office, Vector2i mPos){
 
-    switch(event.type){
-        case Event::MouseButtonPressed:{
-            switch(event.key.code){
-                case Mouse::Left:
-                    //toggleLookingState();
-                break;
+        FloatRect lHitbox = office->getHitbox(0);
+        FloatRect rHitbox = office->getHitbox(1);
+        FloatRect movingLHitbox = FloatRect(lHitbox.left + lDoorSpr.getPosition().x, lHitbox.top, lHitbox.width, lHitbox.height);
+        FloatRect movingRHitbox = FloatRect(rHitbox.left + lDoorSpr.getPosition().x, rHitbox.top, rHitbox.width, rHitbox.height);
+
+        if (CheckHover(movingLHitbox, mPos)){
+            if (event.key.code == Mouse::Left){
+                if (event.type == Event::MouseButtonReleased){
+                    office->toggleDoorState(0);
+                    office->setGeneratorUsage(isLookingAtCams);
                 }
-            break;
             }
-        break;
         }
-    }*/
+
+        if (CheckHover(movingRHitbox, mPos)){
+            if (event.key.code == Mouse::Left){
+                if (event.type == Event::MouseButtonPressed){
+                    office->toggleDoorState(1);
+                    office->setGeneratorUsage(isLookingAtCams);
+                }
+            }
+        }
+    }
 
     void CheckClickCams(Event event, Map* mapa, Vector2i mPos){
         for (int i = 0; i < 10; i++){
@@ -121,10 +130,10 @@ public:
         }
     }
 
-    void Configure(Event event, Texture* tex, Sprite officeSpr, Office* office, Map* mapa, Vector2i mPos){
-        pTex = tex;
+    void Configure(Event event, Sprite lDoorSpr, Office* office, Map* mapa, Vector2i mPos){
         CheckToggleLookingState(event, office);
-        CheckHoldLight(event, officeSpr, office, mPos);
+        CheckHoldLight(event, lDoorSpr, office, mPos);
+        CheckToggleDoors(event, lDoorSpr, office, mPos);
         CheckClickCams(event, mapa, mPos);
     }
 

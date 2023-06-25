@@ -21,7 +21,15 @@ private:
 
     Clock generatorClock;
 
-    Texture* oTex;
+    Texture* ldTex;
+    Texture* wnTex;
+    Texture* rdTex;
+
+    Font font;
+    Text generatorUI;
+
+    Texture usageUI[5];
+    Sprite usageSpr;
 
 public:
     ///GETS GETS GETS GETS GETS GETS GETS GETS GETS GETS GETS GETS
@@ -69,22 +77,67 @@ public:
         }
         return textureID;
     }
+    Text getGeneratorTempUI(){
+        return generatorUI;
+    }
+    Sprite getGeneratorUsageUI(){
+        return usageSpr;
+    }
     ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
     void toggleDoorState(bool ID){
         if (ID == 0){
             leftDoor = !leftDoor;
+            if (leftDoor){
+                *ldTex = SetTexture("office/L10");
+            }
+            else{
+                *ldTex = SetTexture("office/L00");
+            }
         }
         else{
             rightDoor = !rightDoor;
+            if (rightDoor){
+                *ldTex = SetTexture("office/R10");
+            }
+            else{
+                *ldTex = SetTexture("office/R00");
+            }
         }
     }
     void setLightState(bool ID){
         light = ID;
         if (light){
-            *oTex = SetTexture("equirectangulartest1");
+            *wnTex = SetTexture("office/00000");
+            //CALCULAR EL TEXTURE ID PARA LA VENTANA
+            if (leftDoor){
+                *ldTex = SetTexture("office/L11");
+            }
+            else{
+                *ldTex = SetTexture("office/L01");
+            }
+            if (rightDoor){
+                *rdTex = SetTexture("office/R11");
+            }
+            else{
+                *rdTex = SetTexture("office/R01");
+            }
+
         }
         else{
-            *oTex = SetTexture("equirectangulartest");
+            *wnTex = SetTexture("office/FFFFF");
+
+            if (leftDoor){
+                *ldTex = SetTexture("office/L10");
+            }
+            else{
+                *ldTex = SetTexture("office/L00");
+            }
+            if (rightDoor){
+                *rdTex = SetTexture("office/R10");
+            }
+            else{
+                *rdTex = SetTexture("office/R00");
+            }
         }
     }
     void startGenerator(float temp){
@@ -102,9 +155,7 @@ public:
         cout<<usage<<endl<<endl;
         generatorTemp += usage/5;
         generatorTimer += 1;
-
-        //something to do with time
-        //usage and temp should be floats?
+        generatorUI.setString(to_string((int)generatorTemp)+"°");
     }
     void setGeneratorUsage(bool lookingState){
         float usage = 0;
@@ -114,17 +165,42 @@ public:
         if (rightDoor){
             usage += 1;
         }
-        if (light){
-            usage += 2;
-        }
         if (lookingState != 0){
             usage += 2;
         }
+        else if (light){
+            usage += 2;
+        }
         generatorUsage = usage;
+        usageSpr.setTexture(usageUI[(int)usage]);
+    }
+    void setUI(Vector2i screen){
+
+        if (!font.loadFromFile("Pixellari.ttf"))
+        {
+        cout<<"failed to load font"<<endl;
+        }
+        generatorUI.setFont(font); // font is a sf::Font
+        generatorUI.setString(to_string(190)+"°");
+        generatorUI.setCharacterSize(48); // in pixels, not points!
+        generatorUI.setFillColor(sf::Color::White);
+        generatorUI.setPosition(screen.x - generatorUI.getGlobalBounds().width - 30, 20);
+
+        usageUI[0] = SetTexture("textures/usage0");
+        usageUI[1] = SetTexture("textures/usage1");
+        usageUI[2] = SetTexture("textures/usage2");
+        usageUI[3] = SetTexture("textures/usage3");
+        usageUI[4] = SetTexture("textures/usage4");
+
+        usageSpr.setTexture(usageUI[0]);
+        usageSpr.setScale(4, 4);
+        usageSpr.setPosition(screen.x - generatorUI.getGlobalBounds().width * 2 - 20, screen.y - usageSpr.getGlobalBounds().height - 20);
     }
 
-    void Configure(Texture* tex){
-        oTex = tex;
+    void Configure(Texture* lDoorTex, Texture* windowTex, Texture* rDoorTex){
+        ldTex = lDoorTex;
+        wnTex = windowTex;
+        rdTex = rDoorTex;
     }
 };
 

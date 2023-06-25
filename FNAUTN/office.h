@@ -7,32 +7,24 @@ private:
 
     bool roomSpots[5];
 
-    bool leftDoor;
-    bool rightDoor;
+    bool leftDoor = false;
+    bool rightDoor = false;
     bool light;
 
     FloatRect leftDoorHitbox = FloatRect(844, 314, 222, 470);
     FloatRect rightDoorHitbox = FloatRect(2534, 314, 222, 470);
     FloatRect lightHitbox = FloatRect(1239, 154, 1122, 427);
 
-    int generatorTemp;
+    float generatorTemp;
     int generatorUsage;
+    int generatorTimer;
+
+    Clock generatorClock;
 
     Texture* oTex;
 
 public:
-    /*
-    bool getDoorState(bool ID);
-    bool getLightState();
-    int getGeneratorTemp();
-    int getGeneratorUsage();
-
-    void toggleDoorState(bool ID);
-    void setLightState();
-    void startGeneratorTemp(int temp);
-    void updateGeneratorTemp(int usage);
-    void setGeneratorUsage(int currentCam);
-    */
+    ///GETS GETS GETS GETS GETS GETS GETS GETS GETS GETS GETS GETS
     bool getDoorState(bool ID){
         if (ID == 0){
             return leftDoor;
@@ -59,6 +51,12 @@ public:
     int getGeneratorUsage(){
         return generatorUsage;
     }
+    Clock* getGeneratorClock(){
+        return &generatorClock;
+    }
+    int getGeneratorTimer(){
+        return generatorTimer;
+    }
     const char* getTextureID(bool profesOffice[4]){
         char textureID[5];
         for (int i = 0; i < 4; i++){
@@ -71,7 +69,7 @@ public:
         }
         return textureID;
     }
-
+    ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
     void toggleDoorState(bool ID){
         if (ID == 0){
             leftDoor = !leftDoor;
@@ -89,17 +87,27 @@ public:
             *oTex = SetTexture("equirectangulartest");
         }
     }
-    void startGeneratorTemp(int temp){
+    void startGenerator(float temp){
         generatorTemp = temp;
+        generatorClock.restart();
+        generatorTimer = 1;
     }
-    void updateGeneratorTemp(int usage){
-        generatorTemp -= 0.1;
-        generatorTemp += usage;
+    void updateGeneratorTemp(float usage){
+
+        if (generatorTemp > 190){
+            generatorTemp -= 0.1;
+        }
+        cout<<generatorTemp<<endl;
+        cout<<generatorClock.getElapsedTime().asSeconds()<<endl;
+        cout<<usage<<endl<<endl;
+        generatorTemp += usage/5;
+        generatorTimer += 1;
+
         //something to do with time
         //usage and temp should be floats?
     }
-    void setGeneratorUsage(int currentCam){
-        int usage = 0;
+    void setGeneratorUsage(bool lookingState){
+        float usage = 0;
         if (leftDoor){
             usage += 1;
         }
@@ -109,8 +117,8 @@ public:
         if (light){
             usage += 2;
         }
-        if (currentCam != 0){
-            usage += 1;
+        if (lookingState != 0){
+            usage += 2;
         }
         generatorUsage = usage;
     }
@@ -119,22 +127,5 @@ public:
         oTex = tex;
     }
 };
-
-/*
-    bool profesOffice[4];
-    for(int i = 0; i < 4; i++){
-        profesOffice[i] = profes[i].getOfficeState();
-    }
-
-    char textureID[5];
-    strcpy(textureID, Office.getTextureID(profesOffice));
-
-    string texID;
-    for (int i = 0; i < textureID.size(); i++){
-        textID.insert(i, 1, textureID[i]);
-    }
-    Texture tex = SetTexture(texID);
-    Sprite sprite.setTexture(tex);
-*/
 
 #endif // OFFICE_H_INCLUDED

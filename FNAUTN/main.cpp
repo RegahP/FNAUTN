@@ -17,7 +17,7 @@ using namespace std;
 
 int main()
 {
-    RenderWindow window(VideoMode(1600, 900), "FNAUTN", Style::Fullscreen);
+    RenderWindow window(VideoMode(1600, 900), "FNAUTN", Style::Default);
     Image icon;
     if (icon.loadFromFile("mrklostertransparent.png")){
 
@@ -30,6 +30,7 @@ int main()
 
     Player player;
     Office office;
+    office.startGenerator(190);
 
     Profe globalProfes[4]; // i  r  s
     globalProfes[0].Configure(0, 40, 4, 5, 5); //4

@@ -3,7 +3,7 @@
 
 int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe globalProfes[], Room globalRooms[], Vector2i screen){
 
-    //SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
+    ///SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
     if (!Shader::isAvailable())
     {
         cout<<"shaders not available"<<endl;
@@ -15,9 +15,9 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
         cout<<"failed to load "<<"perspective.frag"<<endl;
     }
     shader.setUniform("texture", Shader::CurrentTexture);
-    //SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
+    ///SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
 
-    //INITS INITS INITS INITS INITS INITS INITS INITS INITS
+    ///INITS INITS INITS INITS INITS INITS INITS INITS INITS
     Vector2i mPos(0, 0);
 
     Texture officeTex;
@@ -30,9 +30,9 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
     RenderTexture renderTexture;
     renderTexture.create(screen.x, screen.y);
     renderTexture.setSmooth(true);
-    //INITS INITS INITS INITS INITS INITS INITS INITS INITS
+    ///INITS INITS INITS INITS INITS INITS INITS INITS INITS
 
-    //SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
+    ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
     officeTex = SetTexture("equirectangulartest");
     officeSpr.setTexture(officeTex);
 
@@ -42,11 +42,7 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
     renderSpr.setScale(1.0, -1.0);
     renderSpr.setPosition(0.0, screen.y);
     renderSpr.setTexture(renderTexture.getTexture());
-    //SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
-
-    //Sprite camHoverButtonSprite = player.DrawCamButton();
-    //camHoverButtonSprite.setPosition(screen.x/2 - camHoverButtonSprite.getTextureRect().width/2 , screen.y - camHoverButtonSprite.getTextureRect().height);
-
+    ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
 
     while (window.isOpen())
     {
@@ -62,12 +58,19 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
             //player.CheckCams(mPos, event);
             //player.CheckLight(event);
             //texture = player.tempTexture;
-            player.Configure(event, &officeTex, officeSpr, office, &mapa, mPos);
+            player.Configure(event, &officeTex, officeSpr, &office, &mapa, mPos);
             office.Configure(&officeTex);
             mapa.Configure(&cameraTex, globalProfes, globalRooms);
-
-
         }
+
+        ///EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME
+        if (office.getGeneratorClock()->getElapsedTime().asSeconds() >= office.getGeneratorTimer()){
+            office.setGeneratorUsage(player.getLookingState());
+            float usage = office.getGeneratorUsage();
+            office.updateGeneratorTemp(usage);
+        }
+
+        ///EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME
 
         if (!player.getLookingState()){
 
@@ -82,8 +85,6 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
             window.draw(mapa.getSprite());
             window.draw(mapa.getToggleButton());
         }
-
-        //window.draw(camHoverButtonSprite);
 
         window.display();
         if (Keyboard::isKeyPressed(Keyboard::Escape)){

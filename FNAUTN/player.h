@@ -30,13 +30,16 @@ public:
 
     }
 
-    void CheckToggleLookingState(Event event, Office* office){
+    void CheckToggleLookingState(Event event, Office* office, Map* mapa){
 
         if (event.key.code == Keyboard::Space){
             if (event.type == Event::KeyPressed){
                 toggleLookingState();
                 office->setLightState(false);
                 office->setGeneratorUsage(isLookingAtCams);
+                if (isLookingAtCams){
+                    mapa->setCameraSprite(currentCam);
+                }
             }
         }
     }
@@ -131,12 +134,15 @@ public:
     }
 
     void Configure(Event event, Sprite lDoorSpr, Office* office, Map* mapa, Vector2i mPos){
-        CheckToggleLookingState(event, office);
-        CheckHoldLight(event, lDoorSpr, office, mPos);
-        CheckToggleDoors(event, lDoorSpr, office, mPos);
-        CheckClickCams(event, mapa, mPos);
+        CheckToggleLookingState(event, office, mapa);
+        if (isLookingAtCams){
+            CheckClickCams(event, mapa, mPos);
+        }
+        else{
+            CheckHoldLight(event, lDoorSpr, office, mPos);
+            CheckToggleDoors(event, lDoorSpr, office, mPos);
+        }
     }
-
 };
 
 

@@ -1,30 +1,6 @@
 #ifndef INPUT_H_INCLUDED
 #define INPUT_H_INCLUDED
 
-Texture SetTexture(string textureName);
-
-bool CheckClickToggle( bool flag, Event event){
-
-    switch(event.type){
-        case Event::MouseButtonPressed:{
-            switch(event.key.code){
-                case Mouse::Left:
-
-                    if(!flag){
-                    return true;
-
-                    } else if(flag){
-                    return false;
-                    }
-                break;
-                }
-            break;
-            }
-        break;
-        }
-    return flag;
-}
-
 bool CheckHover(FloatRect obj, Vector2i mPos){
 
     if(obj.contains(mPos.x, mPos.y)){
@@ -35,26 +11,11 @@ bool CheckHover(FloatRect obj, Vector2i mPos){
     }
 }
 
-bool CheckSpaceToggle( bool flag, Event event){
-
-    switch(event.type){
-        case Event::KeyPressed:{
-            switch(event.key.code){
-                case Keyboard::Space:
-
-                    if(!flag){
-                    return true;
-
-                    } else if(flag){
-                    return false;
-                    }
-                break;
-                }
-            break;
-            }
-        break;
-        }
-    return flag;
+int randomNumber(int maxNumber){
+    int number;
+    srand(time(NULL));
+    number = rand()%maxNumber + 1;
+    return number;
 }
 
 Texture SetTexture(string textureName){

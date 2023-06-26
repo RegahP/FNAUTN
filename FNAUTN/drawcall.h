@@ -15,7 +15,6 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
         cout<<"failed to load "<<"perspective.frag"<<endl;
     }
     shader.setUniform("texture", Shader::CurrentTexture);
-    ///SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
 
     ///INITS INITS INITS INITS INITS INITS INITS INITS INITS
     Vector2i mPos(0, 0);
@@ -34,7 +33,6 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
     RenderTexture renderTexture;
     renderTexture.create(screen.x, screen.y);
     renderTexture.setSmooth(true);
-    ///INITS INITS INITS INITS INITS INITS INITS INITS INITS
 
     ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
     lDoorTex = SetTexture("office/L00");
@@ -53,7 +51,11 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
     renderSpr.setScale(1.0, -1.0);
     renderSpr.setPosition(0.0, screen.y);
     renderSpr.setTexture(renderTexture.getTexture());
-    ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
+
+    ///INIT CONFIGURES INIT CONFIGURES INIT CONFIGURES
+    office.Configure(&lDoorTex, &windowTex, &rDoorTex);
+    mapa.Configure(&cameraTex, globalProfes, globalRooms);
+    bool updateCameras = false;
 
     while (window.isOpen())
     {
@@ -64,25 +66,24 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
         Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == Event::Closed)
+            if (event.type == Event::Closed){
                 window.close();
-            //player.CheckCams(mPos, event);
-            //player.CheckLight(event);
-            //texture = player.tempTexture;
+            }
+            ///UPDATE CONFIGURES UPDATE CONFIGURES UPDATE CONFIGURES
             player.Configure(event, lDoorSpr, &office, &mapa, mPos);
-            office.Configure(&lDoorTex, &windowTex, &rDoorTex);
-            mapa.Configure(&cameraTex, globalProfes, globalRooms);
         }
-
         ///EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME
+
+        globalProfes[0].MovementOpportunity(&updateCameras);
+        //globalProfes[1].MovementOpportunity(&updateCameras);
+        //globalProfes[2].MovementOpportunity(&updateCameras);
+        //globalProfes[3].MovementOpportunity(&updateCameras);
+
         if (office.getGeneratorClock()->getElapsedTime().asSeconds() >= office.getGeneratorTimer()){
             office.setGeneratorUsage(player.getLookingState());
             float usage = office.getGeneratorUsage();
             office.updateGeneratorTemp(usage);
         }
-
-        ///EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME
-
         if (!player.getLookingState()){
 
             HorizontalScroll (&lDoorSpr, &windowSpr, &rDoorSpr, mPos, screen);
@@ -94,6 +95,25 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
 
         }
         else{
+            if (updateCameras){
+                if (globalProfes[0].getPos().x == player.getCurrentCam() || globalProfes[0].getLastRoom() == player.getCurrentCam()){
+                    mapa.setCameraSprite(player.getCurrentCam());
+                    updateCameras = false;
+                }
+                /*if (globalProfes[1].getPos().x == player.getCurrentCam() || globalProfes[1].getLastRoom() == player.getCurrentCam()){
+                    mapa.setCameraSprite(player.getCurrentCam());
+                    updateCameras = false;
+                }
+                if (globalProfes[2].getPos().x == player.getCurrentCam() || globalProfes[2].getLastRoom() == player.getCurrentCam()){
+                    mapa.setCameraSprite(player.getCurrentCam());
+                    updateCameras = false;
+                }
+                if (globalProfes[3].getPos().x == player.getCurrentCam() || globalProfes[3].getLastRoom() == player.getCurrentCam()){
+                    mapa.setCameraSprite(player.getCurrentCam());
+                    updateCameras = false;
+                }*/
+            }
+
             window.draw(cameraSpr);
             window.draw(mapa.getSprite());
             window.draw(mapa.getToggleButton());

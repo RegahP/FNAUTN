@@ -150,9 +150,12 @@ public:
         if (generatorTemp > 190){
             generatorTemp -= 0.1;
         }
-        cout<<generatorTemp<<endl;
-        cout<<generatorClock.getElapsedTime().asSeconds()<<endl;
-        cout<<usage<<endl<<endl;
+        else if (generatorTemp < 190){
+                generatorTemp = 190;
+        }
+        //cout<<generatorTemp<<endl;
+        //cout<<generatorClock.getElapsedTime().asSeconds()<<endl;
+        //cout<<usage<<endl<<endl;
         generatorTemp += usage/5;
         generatorTimer += 1;
         generatorUI.setString(to_string((int)generatorTemp)+"°");

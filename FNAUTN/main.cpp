@@ -10,7 +10,7 @@
 using namespace sf;
 using namespace std;
 
-# include "input.h"
+# include "tools.h"
 # include "room.h"
 # include "profe.h"
 # include "office.h"

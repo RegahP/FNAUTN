@@ -157,7 +157,7 @@ public:
             generatorTemp += usage/5;
         }
         if(generatorTemp >=220 && !warning){
-            generatorUI.setColor(Color::Red);
+            generatorUI.setColor(Color(172, 50, 50));
             warning = true;
         }
         else if(generatorTemp <220){

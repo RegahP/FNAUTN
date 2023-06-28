@@ -7,7 +7,7 @@ private:
 
     bool leftDoor = false;
     bool rightDoor = false;
-    bool light;
+    bool light = false;
 
     FloatRect leftDoorHitbox = FloatRect(844, 314, 222, 470);
     FloatRect rightDoorHitbox = FloatRect(2534, 314, 222, 470);
@@ -27,6 +27,7 @@ private:
 
     Font font;
     Text generatorUI;
+    bool warning = false;
 
     Texture usageUI[5];
     Sprite usageSpr;
@@ -155,6 +156,14 @@ public:
         if (generatorTemp <= 230){
             generatorTemp += usage/5;
         }
+        if(generatorTemp >=220 && !warning){
+            generatorUI.setColor(Color::Red);
+            warning = true;
+        }
+        else if(generatorTemp <220){
+            generatorUI.setColor(Color::White);
+            warning = false;
+        }
         generatorTimer += 1;
         generatorUI.setString(to_string((int)generatorTemp)+"°");
     }
@@ -162,15 +171,19 @@ public:
         float usage = 0;
         if (leftDoor){
             usage += 1;
+            cout<<"left door"<<endl;
         }
         if (rightDoor){
             usage += 1;
+            cout<<"right door"<<endl;
         }
         if (lookingState != 0){
             usage += 2;
+            cout<<"Cameras"<<endl;
         }
         else if (light){
             usage += 2;
+            cout<<"lights"<<endl;
         }
         generatorUsage = usage;
         usageSpr.setTexture(usageUI[(int)usage]);

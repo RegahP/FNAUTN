@@ -1,6 +1,15 @@
 #ifndef INPUT_H_INCLUDED
 #define INPUT_H_INCLUDED
 
+void updateNightClock(int* hourCounter, Text* nightClockText, Clock* nightClock, float* hourTimer){
+
+    if(nightClock->getElapsedTime().asSeconds() > *hourTimer){
+            *hourCounter += 1;
+            *hourTimer += 90;
+            nightClockText->setString(to_string(*hourCounter)+" AM");
+        }
+    }
+
 bool CheckHover(FloatRect obj, Vector2i mPos){
 
     if(obj.contains(mPos.x, mPos.y)){
@@ -31,7 +40,7 @@ Texture SetTexture(string textureName){
 
 void HorizontalScroll (Sprite* lDoor, Sprite* window, Sprite* rDoor, Vector2i mPos, Vector2i screen){
 
-    float mult = 0.001;
+    float mult = 0.003;
     if (mPos.x > screen.x * 0.85 && rDoor->getPosition().x > -(rDoor->getTextureRect().width-screen.x)){
         lDoor->move(screen.x * -mult, 0);
         window->move(screen.x * -mult, 0);

@@ -1,7 +1,7 @@
 #ifndef DRAWCALL_H_INCLUDED
 #define DRAWCALL_H_INCLUDED
 
-int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe globalProfes[], Room globalRooms[], Vector2i screen){
+int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe globalProfes[], Room globalRooms[], Vector2i screen, Clock nightClock){
 
     ///SHADER SHADER SHADER SHADER SHADER SHADER SHADER SHADER
     if (!Shader::isAvailable())
@@ -16,10 +16,26 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
     }
     shader.setUniform("texture", Shader::CurrentTexture);
 
+    Text nightClockText;
+    Font font;
+    int hourCounter = 0;
+    float hourTimer = 90;
+
+    if (!font.loadFromFile("Pixellari.ttf")){
+        cout<<"failed to load font"<<endl;
+        }
+        nightClockText.setFont(font);
+        nightClockText.setString(to_string(12)+" AM");
+        nightClockText.setCharacterSize(48);
+        nightClockText.setFillColor(sf::Color::White);
+        nightClockText.setPosition(30, 20);
+
     ///INITS INITS INITS INITS INITS INITS INITS INITS INITS
     Vector2i mPos(0, 0);
 
     srand((unsigned)time(NULL));
+
+    nightClock.restart();
 
     Texture windowTex;
     Sprite windowSpr;
@@ -35,6 +51,7 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
     RenderTexture renderTexture;
     renderTexture.create(screen.x, screen.y);
     renderTexture.setSmooth(true);
+
 
     ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
     lDoorTex = SetTexture("office/L00");
@@ -76,9 +93,9 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
         }
         ///EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME
 
-        //globalProfes[0].MovementOpportunity(&updateCameras, player.getLookingState(), player.getCurrentCam());
-        //globalProfes[1].MovementOpportunity(&updateCameras, player.getLookingState(), player.getCurrentCam());
-        //globalProfes[2].MovementOpportunity(&updateCameras, player.getLookingState(), player.getCurrentCam());
+        globalProfes[0].MovementOpportunity(&updateCameras, player.getLookingState(), player.getCurrentCam());
+        globalProfes[1].MovementOpportunity(&updateCameras, player.getLookingState(), player.getCurrentCam());
+        globalProfes[2].MovementOpportunity(&updateCameras, player.getLookingState(), player.getCurrentCam());
         globalProfes[3].MovementOpportunity(&updateCameras, player.getLookingState(), player.getCurrentCam());
         Vector2i test(globalProfes[3].getPos().x, globalProfes[3].getPos().y);
 
@@ -126,8 +143,19 @@ int Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe glo
         }
         window.draw(office.getGeneratorTempUI());
         window.draw(office.getGeneratorUsageUI());
+        window.draw(nightClockText);
         window.display();
         if (Keyboard::isKeyPressed(Keyboard::Escape)){
+            return 0;
+        }
+
+        if (nightClock.getElapsedTime().asSeconds() <= 540){
+            //cout<<nightClock.getElapsedTime().asSeconds()<<endl;
+            updateNightClock(&hourCounter, &nightClockText, &nightClock, &hourTimer);
+        }
+        else{
+            cout<<"ganaste"<<endl;
+            system("pause");
             return 0;
         }
     }

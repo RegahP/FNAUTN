@@ -147,13 +147,14 @@ public:
     void updateGeneratorTemp(float usage){
 
         if (generatorTemp > 190){
-            generatorTemp -= 0.1;
+            generatorTemp -= 0.2;
         }
         else if (generatorTemp < 190){
                 generatorTemp = 190;
         }
-
-        generatorTemp += usage/5;
+        if (generatorTemp <= 230){
+            generatorTemp += usage/5;
+        }
         generatorTimer += 1;
         generatorUI.setString(to_string((int)generatorTemp)+"°");
     }

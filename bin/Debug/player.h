@@ -5,6 +5,8 @@ class Player{
 
 private:
     bool isLookingAtCams = false;
+    bool updatePlayer = false;
+    bool inAnim = false;
     int currentCam = 0;
 
 public:
@@ -15,30 +17,44 @@ public:
     bool getLookingState(){
         return isLookingAtCams;
     }
-
+    bool getUpdatePlayer (){
+        return updatePlayer;
+    }
+    bool getAnimState (){
+        return inAnim;
+    }
+    void resetUpdatePlayer (){
+        updatePlayer = false;
+    }
+    void resetInAnim (){
+        inAnim = false;
+    }
     void setCurrentCam(int ID){
         currentCam = ID;
     }
     void toggleLookingState(){
         isLookingAtCams = !isLookingAtCams;
+        updatePlayer = true;
 
     }
 
-    void CheckToggleLookingState(Event event, Office* office, Map* mapa){
+    void CheckToggleLookingState(Event event, Clock* camTransitionClock){
 
         if (event.key.code == Keyboard::Space){
             if (event.type == Event::KeyPressed){
-                toggleLookingState();
-                office->setLightState(false);
-                office->setGeneratorUsage(isLookingAtCams);
-                if (isLookingAtCams){
-                    mapa->setCameraSprite(currentCam, isLookingAtCams);
-                }
-                else{
-                    mapa->setCameraSprite(currentCam, isLookingAtCams);
+                if (!inAnim){
+                    toggleLookingState();
+                    camTransitionClock->restart();
+                    inAnim = true;
                 }
             }
         }
+    }
+
+    void PostAnimToggle (Office* office, Map* mapa){
+        office->setLightState(false);
+        office->setGeneratorUsage(isLookingAtCams);
+        mapa->setCameraSprite(currentCam, isLookingAtCams);
     }
 
     void CheckHoldLight(Event event, Sprite lDoorSpr, Office* office, Vector2i mPos){
@@ -144,10 +160,10 @@ public:
         }
     }
 
-    void Configure(Event event, Sprite lDoorSpr, Office* office, Map* mapa, Vector2i mPos){
+    void Configure(Event event, Sprite lDoorSpr, Office* office, Map* mapa, Vector2i mPos, Clock* camTransitionClock){
 
         if (!office->getDie()){
-            CheckToggleLookingState(event, office, mapa);
+            CheckToggleLookingState(event, camTransitionClock);
             if (isLookingAtCams){
                 CheckClickCams(event, mapa, mPos);
             }

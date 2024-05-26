@@ -104,9 +104,9 @@ void night(RenderWindow& window, int nightNum, int volume){
     ///PROFES DIFFICULTIES
 
     int klosterDiff[6] ={0, 0, 1, 2, 3, 4};//4
-    int matiDiff[6] =   {2, 3, 4, 8, 7, 18};//18
-    int maxiDiff[6] =   {3, 6, 3, 5, 8, 13};//13
-    int vastagDiff[6] = {2, 3, 7, 6, 9, 14};//14
+    int maxiDiff[6] =   {0, 3, 0, 2, 5, 10};//13
+    int vastagDiff[6] = {0, 1, 5, 4, 7, 12};//14
+    int matiDiff[6] =   {0, 1, 2, 6, 5, 16};//18
 
     bool playing = true;
     Profe globalProfes[4];

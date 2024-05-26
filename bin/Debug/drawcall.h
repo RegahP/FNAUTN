@@ -91,6 +91,13 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     bool updateCameras;
     bool updateWindow;
 
+    Texture camTransitionTex;
+    Sprite camTransitionSpr;
+    Texture camTransitionFrames[12];
+
+    Animation camTransition;
+    Clock camTransitionClock;
+
     ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
 
     lDoorTex = SetTexture("office/L00");
@@ -108,6 +115,10 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     jumpscareTex = SetTexture("animations/kloster0");
     jumpscareSpr.setTexture(jumpscareTex);
 
+    camTransitionTex = SetTexture("animations/cam0");
+    camTransitionSpr.setTexture(camTransitionTex);
+    camTransition.LoadAnimation(&camTransitionSpr, camTransitionFrames, 12, "cam");
+
     deathCard.setSize(Vector2f(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height));
     deathCard.setFillColor(Color(0, 0, 0, 255));
 
@@ -116,6 +127,9 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
 
     Vector2f jumpscareScale(VideoMode::getDesktopMode().width / jumpscareSpr.getGlobalBounds().width, VideoMode::getDesktopMode().height / jumpscareSpr.getGlobalBounds().height);
     jumpscareSpr.setScale(jumpscareScale.x, jumpscareScale.y);
+
+    Vector2f camTransitionScale(VideoMode::getDesktopMode().width / camTransitionSpr.getGlobalBounds().width, VideoMode::getDesktopMode().height / camTransitionSpr.getGlobalBounds().height);
+    camTransitionSpr.setScale(camTransitionScale.x, camTransitionScale.y);
 
     mrKlosterTex = SetTexture("office/DIE");
     mrKlosterSpr.setTexture(mrKlosterTex);
@@ -197,7 +211,7 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
                 window.close();
             }
             ///UPDATE CONFIGURES UPDATE CONFIGURES UPDATE CONFIGURES
-            player.Configure(event, lDoorSpr, &office, &mapa, mPos);
+            player.Configure(event, lDoorSpr, &office, &mapa, mPos, &camTransitionClock);
         }
         ///EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME
         if (!office.getDie()){
@@ -281,24 +295,50 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
                 gammaTexture.draw(renderSpr, &perspectiveShader);
                 window.draw(gammaSpr, &gammaShader);
             }
-        }
-        else{
-            if (updateCameras){
 
-                for (int i = 0; i < 4; i++){
-                    if (globalProfes[i].getPos().x == player.getCurrentCam() || globalProfes[i].getLastRoom() == player.getCurrentCam()){
-                        updateCameras = false;
-                    }
+            if (player.getUpdatePlayer()){
+
+                if (camTransitionClock.getElapsedTime().asSeconds() < camTransition.getDuration(24)){
+                    camTransition.PlayAnimationReverse(24);
+                    window.draw(camTransitionSpr);
                 }
-                if (!updateCameras){
-                    mapa.setCameraSprite(player.getCurrentCam(), player.getLookingState());
+                else{
+                    player.PostAnimToggle(&office, &mapa);
+                    player.resetUpdatePlayer();
+                    player.resetInAnim();
                 }
             }
-            gammaTexture.draw(cameraSpr);
-            window.draw(gammaSpr, &gammaShader);
-            window.draw(mapa.getSprite());
-            window.draw(mapa.getToggleButton());
+        }
+        else{
 
+            if (camTransitionClock.getElapsedTime().asSeconds() < camTransition.getDuration(24)){
+                camTransition.PlayAnimation(24);
+                window.draw(gammaSpr, &gammaShader);
+                window.draw(camTransitionSpr);
+            }
+            else{
+
+                if (player.getUpdatePlayer()){
+                    player.PostAnimToggle(&office, &mapa);
+                    player.resetUpdatePlayer();
+                    player.resetInAnim();
+                }
+
+                if (updateCameras){
+                    for (int i = 0; i < 4; i++){
+                        if (globalProfes[i].getPos().x == player.getCurrentCam() || globalProfes[i].getLastRoom() == player.getCurrentCam()){
+                            updateCameras = false;
+                        }
+                    }
+                    if (!updateCameras){
+                        mapa.setCameraSprite(player.getCurrentCam(), player.getLookingState());
+                    }
+                }
+                gammaTexture.draw(cameraSpr);
+                window.draw(gammaSpr, &gammaShader);
+                window.draw(mapa.getSprite());
+                window.draw(mapa.getToggleButton());
+            }
         }
         if (!office.getDie()){
             window.draw(office.getGeneratorTempUI());

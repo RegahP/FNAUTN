@@ -6,6 +6,7 @@ private:
 
         int currentFrame = 0;
         int framesAmount = 0;
+        bool started = false;
 
         Sprite* animSpr;
         Texture* animTex;
@@ -24,13 +25,41 @@ public:
         }
 
         PlayAnimation(float frameRate){
-
+            if (!started && currentFrame != framesAmount){
+                currentFrame = 0;
+                started = true;
+                //cout<<"start normal"<<endl;
+            }
             if (currentFrame < framesAmount){
                 if (clock.getElapsedTime().asSeconds() > 1 / frameRate) {
                     animSpr->setTexture(animTex[currentFrame]);
+                    //cout<<currentFrame<<" normal "<<framesAmount<<endl;
                     currentFrame++;
                     clock.restart();
                 }
+            }
+            if (currentFrame == framesAmount && started){
+                started = false;
+                //cout<<"reset normal"<<endl;
+            }
+        }
+        PlayAnimationReverse(float frameRate){
+            if (!started && currentFrame >= 0){
+                currentFrame = framesAmount - 1;
+                started = true;
+                //cout<<"start reverse"<<endl;
+            }
+            if (currentFrame >= 0){
+                if (clock.getElapsedTime().asSeconds() > 1 / frameRate) {
+                    animSpr->setTexture(animTex[currentFrame]);
+                    //cout<<currentFrame<<" reverse "<<framesAmount<<endl;
+                    currentFrame--;
+                    clock.restart();
+                }
+            }
+            if (currentFrame == -1  && started){
+                started = false;
+                //cout<<"reset reverse"<<endl;
             }
         }
         float getDuration(float frameRate){

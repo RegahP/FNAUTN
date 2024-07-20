@@ -271,6 +271,7 @@ public:
             currentPos = sequence[posInSeq];
             posInSeq++;
         }
+
         cout<<currentPos.x<<", "<<currentPos.y<<endl;
     }
     void TriggerDirubeMode(){

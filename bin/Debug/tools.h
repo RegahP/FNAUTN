@@ -40,7 +40,7 @@ Texture SetTexture(string textureName){
     return texture;
 }
 
-void HorizontalScroll (Sprite* lDoor, Sprite* window, Sprite* rDoor, Sprite* mrKloster, Sprite* achievements, Vector2i mPos, Vector2i screen){
+void HorizontalScroll (Sprite* lDoor, Sprite* window, Sprite* rDoor, Sprite* mrKloster, Sprite* miraPlushie, Sprite* monke, Vector2i mPos, Vector2i screen){
 
     float speed = 1.6;
     if (mPos.x > screen.x * 0.85 && rDoor->getPosition().x > -(rDoor->getTextureRect().width-screen.x)){
@@ -48,7 +48,8 @@ void HorizontalScroll (Sprite* lDoor, Sprite* window, Sprite* rDoor, Sprite* mrK
         window->move(-speed, 0);
         rDoor->move(-speed, 0);
         mrKloster->move(-speed, 0);
-        achievements->move(-speed, 0);
+        miraPlushie->move(-speed, 0);
+        monke->move(-speed, 0);
     }
 
     if (mPos.x < screen.x * 0.15 && lDoor->getPosition().x < 0){
@@ -57,7 +58,8 @@ void HorizontalScroll (Sprite* lDoor, Sprite* window, Sprite* rDoor, Sprite* mrK
         window->move(speed, 0);
         rDoor->move(speed, 0);
         mrKloster->move(speed, 0);
-        achievements->move(speed, 0);
+        miraPlushie->move(speed, 0);
+        monke->move(speed, 0);
     }
 }
 

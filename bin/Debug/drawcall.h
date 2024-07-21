@@ -34,8 +34,10 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     Sprite lDoorSpr;
     Texture rDoorTex;
     Sprite rDoorSpr;
-    Texture achievementsTex;
-    Sprite achievementsSpr;
+    Texture miraPlushieTex;
+    Sprite miraPlushieSpr;
+    Texture monkeTex;
+    Sprite monkeSpr;
 
     Texture cameraTex;
     Sprite cameraSpr;
@@ -106,8 +108,12 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     windowSpr.setTexture(windowTex);
     rDoorTex = SetTexture("office/R00");
     rDoorSpr.setTexture(rDoorTex);
-    achievementsTex = SetTexture("office/achievements1");
-    achievementsSpr.setTexture(achievementsTex);
+
+    miraPlushieTex = SetTexture("office/miraplushie");
+    miraPlushieSpr.setTexture(miraPlushieTex);
+    monkeTex = SetTexture("office/monkevsbana");
+    monkeSpr.setTexture(monkeTex);
+
 
     cameraTex = SetTexture("cameras/00000");
     cameraSpr.setTexture(cameraTex);
@@ -138,7 +144,8 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     lDoorSpr.setPosition(-1000, 0);
     windowSpr.setPosition(130, 0);
     rDoorSpr.setPosition(1470, 0);
-    achievementsSpr.setPosition(-1000, 0);
+    miraPlushieSpr.setPosition(-1000, 0);
+    monkeSpr.setPosition(-1000, 0);
     mrKlosterSpr.setPosition(-1000, 0);
 
     renderSpr.setScale(1.0, -1.0);
@@ -197,6 +204,9 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
 
     updateCameras = false;
     updateWindow = false;
+
+    Progress progress = ReadProgress();
+
 
     while (window.isOpen())
     {
@@ -277,7 +287,7 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
         }
         if (!player.getLookingState()){
 
-            HorizontalScroll (&lDoorSpr, &windowSpr, &rDoorSpr, &mrKlosterSpr, &achievementsSpr, mPos, screen);
+            HorizontalScroll (&lDoorSpr, &windowSpr, &rDoorSpr, &mrKlosterSpr, &miraPlushieSpr, &monkeSpr, mPos, screen);
             if (updateWindow){
                 if (office.getLightState()){
                    office.updateWindow();
@@ -291,7 +301,13 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
                 if (mrKlosterIsHere){
                     renderTexture.draw(mrKlosterSpr);
                 }
-                renderTexture.draw(achievementsSpr);
+
+                if(progress.getNight5()){
+                    renderTexture.draw(miraPlushieSpr);
+                }
+                if(progress.getNight6()){
+                    renderTexture.draw(monkeSpr);
+                }
                 gammaTexture.draw(renderSpr, &perspectiveShader);
                 window.draw(gammaSpr, &gammaShader);
             }

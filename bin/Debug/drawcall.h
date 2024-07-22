@@ -38,6 +38,8 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     Sprite miraPlushieSpr;
     Texture monkeTex;
     Sprite monkeSpr;
+    Texture dndDiceTex;
+    Sprite dndDiceSpr;
 
     Texture cameraTex;
     Sprite cameraSpr;
@@ -113,6 +115,8 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     miraPlushieSpr.setTexture(miraPlushieTex);
     monkeTex = SetTexture("office/monkevsbana");
     monkeSpr.setTexture(monkeTex);
+    dndDiceTex = SetTexture("office/dnddice");
+    dndDiceSpr.setTexture(dndDiceTex);
 
 
     cameraTex = SetTexture("cameras/00000");
@@ -146,6 +150,7 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     rDoorSpr.setPosition(1470, 0);
     miraPlushieSpr.setPosition(-1000, 0);
     monkeSpr.setPosition(-1000, 0);
+    dndDiceSpr.setPosition(-1000, 0);
     mrKlosterSpr.setPosition(-1000, 0);
 
     renderSpr.setScale(1.0, -1.0);
@@ -287,7 +292,7 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
         }
         if (!player.getLookingState()){
 
-            HorizontalScroll (&lDoorSpr, &windowSpr, &rDoorSpr, &mrKlosterSpr, &miraPlushieSpr, &monkeSpr, mPos, screen);
+            HorizontalScroll (&lDoorSpr, &windowSpr, &rDoorSpr, &mrKlosterSpr, &miraPlushieSpr, &monkeSpr, &dndDiceSpr, mPos, screen);
             if (updateWindow){
                 if (office.getLightState()){
                    office.updateWindow();
@@ -307,6 +312,9 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
                 }
                 if(progress.getNight6()){
                     renderTexture.draw(monkeSpr);
+                }
+                if(progress.getCustomNight()){
+                    renderTexture.draw(dndDiceSpr);
                 }
                 gammaTexture.draw(renderSpr, &perspectiveShader);
                 window.draw(gammaSpr, &gammaShader);

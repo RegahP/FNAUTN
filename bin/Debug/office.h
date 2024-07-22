@@ -376,7 +376,7 @@ public:
         leftDoorHitbox = FloatRect(844 * scale.x, 314 * scale.y, 222 * scale.x, 470 * scale.y);
         lightHitbox = FloatRect(1239 * scale.x, 154 * scale.y, 1122 * scale.x, 427 * scale.y);
 
-        miraHitbox = FloatRect(1987 * scale.x, 523 * scale.y, 160 * scale.x, 180 * scale.y);
+        miraHitbox = FloatRect(2260 * scale.x, 637 * scale.y, 20 * scale.x, 15 * scale.y);
 
         font = ft;
 

@@ -32,7 +32,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add directory="C:/Users/andre/OneDrive/Documentos/Codeblocks/FNAUTN beta/bin/Debug/SFML-2.5.1/include" />
-			<Add directory="C:/Users/USUARIO/Desktop/TUP/SFML/include" />
+			<Add directory="SFML-2.5.1/include" />
 		</Compiler>
 		<Linker>
 			<Add library="sfml-audio" />
@@ -40,7 +40,7 @@
 			<Add library="sfml-window" />
 			<Add library="sfml-system" />
 			<Add directory="C:/Users/andre/OneDrive/Documentos/Codeblocks/FNAUTN beta/bin/Debug/SFML-2.5.1/lib" />
-			<Add directory="C:/Users/USUARIO/Desktop/TUP/SFML/lib" />
+			<Add directory="SFML-2.5.1/lib" />
 		</Linker>
 		<Unit filename="anim.h" />
 		<Unit filename="drawcall.h" />

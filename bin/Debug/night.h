@@ -110,6 +110,8 @@ void night(RenderWindow& window, int nightNum, int volume){
 
     bool playing = true;
     Profe globalProfes[4];
+
+
     while(playing){
         ///Night card
         //                                   i  r  s                             5.13
@@ -119,6 +121,8 @@ void night(RenderWindow& window, int nightNum, int volume){
         globalProfes[3].Configure("vastag",  3, 6, 2, vastagDiff[nightNum - 1],  5.66, globalProfes, globalRooms, matrixMap, vastagFRooms, vastagFSpots, 4, 6, vastagSequence, vastagSequenceSize, volume);         //6 2
 
         Map mapa(screen, volume);
+
+        DisplayNightCard(window, nightNum);
 
         if (Draw(window, player, office, mapa, globalProfes, globalRooms, screen, nightClock, ReadProgress().getGamma(), volume)){
             nightNum+=1;
@@ -241,6 +245,8 @@ void customNight(RenderWindow& window, int nightNum, int customDifs[], int volum
     globalProfes[3].Configure("vastag",  3, 6, 2, customDifs[3], 5.66, globalProfes, globalRooms, matrixMap, vastagFRooms, vastagFSpots, 4, 6, vastagSequence, vastagSequenceSize, volume); //6 2
 
     Map mapa(screen, volume);
+
+    DisplayNightCard(window, nightNum);
 
     if (Draw(window, player, office, mapa, globalProfes, globalRooms, screen, nightClock, ReadProgress().getGamma(), volume)){
         nightNum+=1;

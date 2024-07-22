@@ -378,6 +378,7 @@ void Menu(RenderWindow& window){
                 play = false;
                 menuMusic.stop();
                 if(newGame){
+                    //DrawIntroCard(window);
                     night(window, 1, volume);
                     newGame = false;
                 }

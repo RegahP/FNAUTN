@@ -203,7 +203,7 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     ambience.play();
 
     ///INIT CONFIGURES INIT CONFIGURES INIT CONFIGURES
-    office.Configure(&lDoorTex, &windowTex, &rDoorTex, globalProfes, font, Vector2f(1, 1));
+    office.Configure(&lDoorTex, &windowTex, &rDoorTex, globalProfes, font, Vector2f(1, 1), volume);
     office.setUI(screen);
     mapa.Configure(&cameraTex, globalProfes, globalRooms);
 
@@ -412,7 +412,7 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
             return false;
         }
 
-        if (nightClock.getElapsedTime().asSeconds() <= 540){
+        if (nightClock.getElapsedTime().asSeconds() <= 540){ //night duration
             if (updateNightClock(&hourCounter, &nightClockText, &nightClock, &hourTimer)){
                 for (int i = 0; i < 4; i++){
                     switch(i){

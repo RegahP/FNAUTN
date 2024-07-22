@@ -22,7 +22,6 @@ bool CheckHover(FloatRect obj, Vector2i mPos){
     }
 }
 
-
 int randomNumber(int maxNumber){
 
     int number = rand()%maxNumber + 1;
@@ -49,19 +48,18 @@ void HorizontalScroll (Sprite* lDoor, Sprite* window, Sprite* rDoor, Sprite* mrK
         rDoor->move(-speed, 0);
         mrKloster->move(-speed, 0);
         miraPlushie->move(-speed, 0);
-        dndDice->move(-speed, 0);
         monke->move(-speed, 0);
+        dndDice->move(-speed, 0);
     }
 
     if (mPos.x < screen.x * 0.15 && lDoor->getPosition().x < 0){
-
         lDoor->move(speed, 0);
         window->move(speed, 0);
         rDoor->move(speed, 0);
         mrKloster->move(speed, 0);
         miraPlushie->move(speed, 0);
-        dndDice->move(speed, 0);
         monke->move(speed, 0);
+        dndDice->move(speed, 0);
     }
 }
 
@@ -79,7 +77,7 @@ void DrawIntroCard (RenderWindow& window){
     fadeInOut.setSize(Vector2f(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height));
     fadeInOut.setFillColor(Color(0, 0, 0, 255));
     fadeValue = 255;
-    fadeSpeed = 0.3f;
+    fadeSpeed = 0.15f;
 
     introCardTex = SetTexture("textures/introcard");
     introCardSpr.setTexture(introCardTex);
@@ -102,20 +100,21 @@ void DrawIntroCard (RenderWindow& window){
             if (fadeValue <= 0){
                 fadeIn = true;
                 fadeOut = true;
+                waitClock.restart();
             }
         }
 
 
-        if (fadeOut && waitClock.getElapsedTime().asSeconds() >= 7){
+        if (fadeOut && waitClock.getElapsedTime().asSeconds() >= 5){
                 if(fadeValue <= 255){
                     fadeValue += fadeSpeed;
                     fadeInOut.setFillColor(Color(0, 0, 0, fadeValue));
                 }
                 cout<<"lol 2 "<<fadeValue<<" tiempo: "<<waitClock.getElapsedTime().asSeconds()<<endl;
 
-                if (waitClock.getElapsedTime().asSeconds() >= 9){
-                    return;
-                }
+        }
+        if (fadeOut && fadeValue >= 255){
+            return;
         }
         window.draw(introCardSpr);
         window.draw(fadeInOut);
@@ -146,9 +145,6 @@ void DisplayNightCard(RenderWindow& window,int night){
         window.draw(nightCardSpr);
         window.display();
     }
-
 }
-
-
 
 #endif // INPUT_H_INCLUDED

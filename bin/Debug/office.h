@@ -37,10 +37,27 @@ private:
 
     SoundBuffer alarmBuffer;
     Sound alarmSound;
+
     SoundBuffer generatorBuffer;
     Sound generatorSound;
+
     SoundBuffer miraBuffer;
     Sound miraSound;
+
+    SoundBuffer door1Buffer;
+    Sound door1Sound;
+
+    SoundBuffer door2Buffer;
+    Sound door2Sound;
+
+    SoundBuffer light1Buffer;
+    Sound light1Sound;
+
+    SoundBuffer light2Buffer;
+    Sound light2Sound;
+
+    SoundBuffer light3Buffer;
+    Sound light3Sound;
 
     bool die;
     bool shutOff;
@@ -97,8 +114,10 @@ public:
             leftDoor = !leftDoor;
             if (leftDoor){
                 *ldTex = SetTexture("office/L10");
+                door2Sound.play();
             }
             else{
+                door1Sound.play();
                 if (globalProfes[1].getDirubeMode() && !globalProfes[1].getEnteredOffice()){
                     if (!globalProfes[1].getSide()){
                         *ldTex = SetTexture("office/L00M");
@@ -116,8 +135,10 @@ public:
             rightDoor = !rightDoor;
             if (rightDoor){
                 *rdTex = SetTexture("office/R10");
+                door2Sound.play();
             }
             else{
+                door1Sound.play();
                 if (globalProfes[1].getDirubeMode() && !globalProfes[1].getEnteredOffice()){
                     if (globalProfes[1].getSide()){
                         *rdTex = SetTexture("office/R00M");
@@ -171,6 +192,8 @@ public:
     void setLightState(bool ID){
         light = ID;
         if (light){
+            light1Sound.play();
+            light3Sound.play();
             *wnTex = SetTexture("office/0000");
 
             int profesReachedOffice[4];
@@ -199,6 +222,8 @@ public:
 
         }
         else{
+            light2Sound.play();
+            light3Sound.stop();
             *wnTex = SetTexture("office/FFFF");
 
             if (leftDoor){
@@ -366,7 +391,7 @@ public:
         miraSound.play();
     }
 
-    void Configure(Texture* lDoorTex, Texture* windowTex, Texture* rDoorTex, Profe profes[], Font ft, Vector2f scale){
+    void Configure(Texture* lDoorTex, Texture* windowTex, Texture* rDoorTex, Profe profes[], Font ft, Vector2f scale, float volume){
         ldTex = lDoorTex;
         wnTex = windowTex;
         rdTex = rDoorTex;
@@ -382,15 +407,36 @@ public:
 
         alarmBuffer.loadFromFile("audio/FNAUTN_Alarm.wav");
         alarmSound.setBuffer(alarmBuffer);
-        alarmSound.setVolume(75);
+        alarmSound.setVolume(75 * ((float)volume / 100));
 
         generatorBuffer.loadFromFile("audio/FNAUTN_Generator.wav");
         generatorSound.setBuffer(generatorBuffer);
-        generatorSound.setVolume(75);
+        generatorSound.setVolume(75 * ((float)volume / 100));
 
         miraBuffer.loadFromFile("audio/FNAUTN_Mira.wav");
         miraSound.setBuffer(miraBuffer);
-        miraSound.setVolume(15);
+        miraSound.setVolume(15 * ((float)volume / 100));
+
+        door1Buffer.loadFromFile("audio/FNAUTN_Door1.wav");
+        door1Sound.setBuffer(door1Buffer);
+        door1Sound.setVolume(75 * ((float)volume / 100));
+
+        door2Buffer.loadFromFile("audio/FNAUTN_Door2.wav");
+        door2Sound.setBuffer(door2Buffer);
+        door2Sound.setVolume(75 * ((float)volume / 100));
+
+        light1Buffer.loadFromFile("audio/FNAUTN_Light1.wav");
+        light1Sound.setBuffer(light1Buffer);
+        light1Sound.setVolume(60 * ((float)volume / 100));
+
+        light2Buffer.loadFromFile("audio/FNAUTN_Light2.wav");
+        light2Sound.setBuffer(light2Buffer);
+        light2Sound.setVolume(60 * ((float)volume / 100));
+
+        light3Buffer.loadFromFile("audio/FNAUTN_Light3.wav");
+        light3Sound.setBuffer(light3Buffer);
+        light3Sound.setVolume(60 * ((float)volume / 100));
+        light3Sound.setLoop(true);
 
         warning = false;
         stoppedAlarm = false;

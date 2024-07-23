@@ -73,12 +73,20 @@ void Menu(RenderWindow& window){
     Progress progress;
 
     Music menuMusic;
+
     SoundBuffer clickBuffer;
     Sound click1;
+
+    SoundBuffer introBuffer;
+    Sound introSound;
 
     clickBuffer.loadFromFile("audio/FNAUTN_Click1.wav");
     click1.setBuffer(clickBuffer);
     click1.setVolume(15);
+
+    introBuffer.loadFromFile("audio/FNAUTN_Intro.wav");
+    introSound.setBuffer(introBuffer);
+    introSound.setVolume(25);
 
     bool showCredits = false;
     bool showSettings = false;
@@ -176,6 +184,7 @@ void Menu(RenderWindow& window){
     progress.setCustomNight();
 
     click1.setVolume(15 * ((float)progress.getVolume() / 100));
+    introSound.setVolume(25 * ((float)progress.getVolume() / 100));
 
     continueNight.setString("Noche " + to_string(progress.getNight()));
 
@@ -273,6 +282,7 @@ void Menu(RenderWindow& window){
 
                                     menuMusic.setVolume(50 * ((float)volume / 100));
                                     click1.setVolume(15 * ((float)volume / 100));
+                                    introSound.setVolume(25 * ((float)progress.getVolume() / 100));
                                     progress.setVolume(volume);
                                 }
                             }
@@ -284,6 +294,7 @@ void Menu(RenderWindow& window){
 
                                     menuMusic.setVolume(50 * ((float)volume / 100));
                                     click1.setVolume(15 * ((float)volume / 100));
+                                    introSound.setVolume(25 * ((float)progress.getVolume() / 100));
                                     progress.setVolume(volume);
                                 }
                             }
@@ -378,6 +389,7 @@ void Menu(RenderWindow& window){
                 play = false;
                 menuMusic.stop();
                 if(newGame){
+                    introSound.play();
                     DrawIntroCard(window);
                     night(window, 1, volume);
                     newGame = false;

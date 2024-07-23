@@ -189,11 +189,13 @@ public:
             }
         }
     }
-    void setLightState(bool ID){
+    void setLightState(bool ID, bool playSound = true){
         light = ID;
         if (light){
-            light1Sound.play();
-            light3Sound.play();
+            if (playSound){
+                light1Sound.play();
+                light3Sound.play();
+            }
             *wnTex = SetTexture("office/0000");
 
             int profesReachedOffice[4];
@@ -222,8 +224,10 @@ public:
 
         }
         else{
-            light2Sound.play();
-            light3Sound.stop();
+            if (playSound){
+                light2Sound.play();
+                light3Sound.stop();
+            }
             *wnTex = SetTexture("office/FFFF");
 
             if (leftDoor){
@@ -288,6 +292,7 @@ public:
     }
     void ShutOff(){
         if (!shutOff){
+            setLightState(false);
             *ldTex = SetTexture("office/LDIE");
             *wnTex = SetTexture("office/WDIE");
             *rdTex = SetTexture("office/RDIE");

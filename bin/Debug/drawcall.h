@@ -35,10 +35,13 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     Texture rDoorTex;
     Sprite rDoorSpr;
     Texture miraPlushieTex;
+    Texture miraPlushieDieTex;
     Sprite miraPlushieSpr;
     Texture monkeTex;
+    Texture monkeDieTex;
     Sprite monkeSpr;
     Texture dndDiceTex;
+    Texture dndDiceDieTex;
     Sprite dndDiceSpr;
 
     Texture cameraTex;
@@ -112,10 +115,13 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     rDoorSpr.setTexture(rDoorTex);
 
     miraPlushieTex = SetTexture("office/miraplushie");
+    miraPlushieDieTex = SetTexture("office/miraplushie_die");
     miraPlushieSpr.setTexture(miraPlushieTex);
     monkeTex = SetTexture("office/monkevsbana");
+    monkeDieTex = SetTexture("office/monkevsbana_die");
     monkeSpr.setTexture(monkeTex);
     dndDiceTex = SetTexture("office/dnddice");
+    dndDiceDieTex = SetTexture("office/dnddice_die");
     dndDiceSpr.setTexture(dndDiceTex);
 
 
@@ -203,6 +209,7 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     ambience.play();
 
     ///INIT CONFIGURES INIT CONFIGURES INIT CONFIGURES
+    player.InitConfigure(volume);
     office.Configure(&lDoorTex, &windowTex, &rDoorTex, globalProfes, font, Vector2f(1, 1), volume);
     office.setUI(screen);
     mapa.Configure(&cameraTex, globalProfes, globalRooms);
@@ -264,6 +271,9 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
                 player.toggleLookingState();
             }
             office.ShutOff();
+            miraPlushieSpr.setTexture(miraPlushieDieTex);
+            monkeSpr.setTexture(monkeDieTex);
+            dndDiceSpr.setTexture(dndDiceDieTex);
             if (!calculateTimers){
                 drawClock.restart();
                 waitToAudio = randomNumber(4) + 4 + 8;
@@ -334,7 +344,9 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
             }
         }
         else{
-
+            if (player.getLaptop1SoundStatus(false) == 0 && player.getLaptop1SoundStatus(true) == 0 ){
+                player.playLaptop3Sound();
+            }
             if (camTransitionClock.getElapsedTime().asSeconds() < camTransition.getDuration(24)){
                 camTransition.PlayAnimation(24);
                 window.draw(gammaSpr, &gammaShader);

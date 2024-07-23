@@ -122,7 +122,7 @@ void night(RenderWindow& window, int nightNum, int volume){
 
         Map mapa(screen, volume);
 
-        DisplayNightCard(window, nightNum);
+        DisplayNightCard(window, nightNum, volume);
 
         if (Draw(window, player, office, mapa, globalProfes, globalRooms, screen, nightClock, ReadProgress().getGamma(), volume)){
             nightNum+=1;
@@ -246,7 +246,7 @@ void customNight(RenderWindow& window, int nightNum, int customDifs[], int volum
 
     Map mapa(screen, volume);
 
-    DisplayNightCard(window, nightNum);
+    DisplayNightCard(window, nightNum, volume);
 
     if (Draw(window, player, office, mapa, globalProfes, globalRooms, screen, nightClock, ReadProgress().getGamma(), volume)){
         nightNum+=1;

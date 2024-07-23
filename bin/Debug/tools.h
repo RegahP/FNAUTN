@@ -80,6 +80,7 @@ void DrawIntroCard (RenderWindow& window){
     fadeSpeed = 0.15f;
 
     introCardTex = SetTexture("textures/introcard");
+    introCardTex.setSmooth(true);
     introCardSpr.setTexture(introCardTex);
 
 
@@ -90,7 +91,7 @@ void DrawIntroCard (RenderWindow& window){
 
     while(window.isOpen()){
         window.clear();
-
+        introCardSpr.scale(1.000002f, 1.000002f);
         if (!fadeIn){
             fadeInOut.setFillColor(Color(0, 0, 0, fadeValue));
             fadeValue -= fadeSpeed;
@@ -105,7 +106,7 @@ void DrawIntroCard (RenderWindow& window){
         }
 
 
-        if (fadeOut && waitClock.getElapsedTime().asSeconds() >= 5){
+        if (fadeOut && waitClock.getElapsedTime().asSeconds() >= 6){
                 if(fadeValue <= 255){
                     fadeValue += fadeSpeed;
                     fadeInOut.setFillColor(Color(0, 0, 0, fadeValue));
@@ -123,7 +124,7 @@ void DrawIntroCard (RenderWindow& window){
 
 }
 
-void DisplayNightCard(RenderWindow& window,int night){
+void DisplayNightCard(RenderWindow& window, int night, float volume){
 
     int num = night-1;
 
@@ -132,6 +133,15 @@ void DisplayNightCard(RenderWindow& window,int night){
 
     nightCardTex = SetTexture("textures/nightcard_"+ to_string(num));
     nightCardSpr.setTexture(nightCardTex);
+
+    SoundBuffer click2Buffer;
+    Sound click2;
+
+    click2Buffer.loadFromFile("audio/FNAUTN_Click2.wav");
+    click2.setBuffer(click2Buffer);
+    click2.setVolume(20 * ((float)volume / 100));
+
+    click2.play();
 
     Clock waitClock;
 

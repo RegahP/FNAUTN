@@ -9,6 +9,24 @@ private:
     bool inAnim = false;
     int currentCam = 0;
 
+    SoundBuffer laptop1Buffer;
+    Sound laptop1Sound;
+
+    SoundBuffer laptop2Buffer;
+    Sound laptop2Sound;
+
+    SoundBuffer laptop3Buffer;
+    Sound laptop3Sound;
+
+    SoundBuffer laptop4Buffer;
+    Sound laptop4Sound;
+
+    SoundBuffer click2Buffer;
+    Sound click2;
+
+    SoundBuffer click3Buffer;
+    Sound click3;
+
 public:
 
     int getCurrentCam(){
@@ -34,8 +52,32 @@ public:
     }
     void toggleLookingState(){
         isLookingAtCams = !isLookingAtCams;
-        updatePlayer = true;
 
+        if (isLookingAtCams){
+            laptop1Sound.play();
+        }
+        else{
+            laptop1Sound.stop();
+
+            if (laptop3Sound.getStatus() == 2){
+                laptop3Sound.stop();
+                laptop4Sound.play();
+            }
+            laptop2Sound.play();
+        }
+
+        updatePlayer = true;
+    }
+
+    int getLaptop1SoundStatus(bool laptop3){
+        if (laptop3 == false){
+            return laptop1Sound.getStatus();
+        }
+        return laptop3Sound.getStatus();
+    }
+
+    void playLaptop3Sound(){
+        laptop3Sound.play();
     }
 
     void CheckToggleLookingState(Event event, Clock* camTransitionClock){
@@ -52,7 +94,11 @@ public:
     }
 
     void PostAnimToggle (Office* office, Map* mapa){
-        office->setLightState(false);
+        if (office->getLightState()){
+            if (isLookingAtCams){
+                office->setLightState(false);
+            }
+        }
         office->setGeneratorUsage(isLookingAtCams);
         mapa->setCameraSprite(currentCam, isLookingAtCams);
     }
@@ -115,11 +161,13 @@ public:
                             mapa->setMapSprite(i);
                             mapa->setLastCam(1, i);
                             setCurrentCam(mapa->getLastCam(1));
+                            click2.play();
                         }
                         else if (mapa->getToggleButtonState() < 2 && i < 7){
                             mapa->setMapSprite(i);
                             mapa->setLastCam(0, i);
                             setCurrentCam(mapa->getLastCam(0));
+                            click2.play();
                         }
                         mapa->setCameraSprite(currentCam, isLookingAtCams);
                     }
@@ -142,6 +190,7 @@ public:
                 else if (event.type == Event::MouseButtonReleased){
                     mapa->ToggleButton();
                     mapa->setCameraSprite(currentCam, isLookingAtCams);
+                    click3.play();
                 }
             }
         }
@@ -173,6 +222,33 @@ public:
                 CheckClickMira(event, lDoorSpr, office, mPos);
             }
         }
+    }
+
+    void InitConfigure(float volume){
+        laptop1Buffer.loadFromFile("audio/FNAUTN_Laptop1.wav");
+        laptop1Sound.setBuffer(laptop1Buffer);
+        laptop1Sound.setVolume(80 * ((float)volume / 100));
+
+        laptop2Buffer.loadFromFile("audio/FNAUTN_Laptop2.wav");
+        laptop2Sound.setBuffer(laptop2Buffer);
+        laptop2Sound.setVolume(80 * ((float)volume / 100));
+
+        laptop3Buffer.loadFromFile("audio/FNAUTN_Laptop3.wav");
+        laptop3Sound.setBuffer(laptop3Buffer);
+        laptop3Sound.setLoop(true);
+        laptop3Sound.setVolume(80 * ((float)volume / 100));
+
+        laptop4Buffer.loadFromFile("audio/FNAUTN_Laptop4.wav");
+        laptop4Sound.setBuffer(laptop4Buffer);
+        laptop4Sound.setVolume(80 * ((float)volume / 100));
+
+        click2Buffer.loadFromFile("audio/FNAUTN_Click2.wav");
+        click2.setBuffer(click2Buffer);
+        click2.setVolume(20 * ((float)volume / 100));
+
+        click3Buffer.loadFromFile("audio/FNAUTN_Click3.wav");
+        click3.setBuffer(click3Buffer);
+        click3.setVolume(20 * ((float)volume / 100));
     }
 };
 

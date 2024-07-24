@@ -91,9 +91,13 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     bool mrKlosterIsHere;
     bool mrKlosterJumpscare;
 
+    Music ambience;
+
     SoundBuffer klosterBuffer;
     Sound klosterSound;
-    Music ambience;
+
+    SoundBuffer interfBuffers[3];
+    Sound interfSounds[3];
 
     bool updateCameras;
     bool updateWindow;
@@ -104,6 +108,20 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
 
     Animation camTransition;
     Clock camTransitionClock;
+
+    Texture camStaticTex;
+    Sprite camStaticSpr;
+    Texture camStaticFrames[10];
+
+    Animation camStatic;
+    Clock camStaticClock;
+
+    Texture camInterfTex;
+    Sprite camInterfSpr;
+    Texture camInterfFrames[24];
+
+    Animation camInterf;
+    Clock camInterfClock;
 
     ///SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS SETS
 
@@ -134,6 +152,14 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     camTransitionTex = SetTexture("animations/cam0");
     camTransitionSpr.setTexture(camTransitionTex);
     camTransition.LoadAnimation(&camTransitionSpr, camTransitionFrames, 12, "cam");
+
+    camStaticTex = SetTexture("animations/static0");
+    camStaticSpr.setTexture(camStaticTex);
+    camStatic.LoadAnimation(&camStaticSpr, camStaticFrames, 10, "static");
+
+    camInterfTex = SetTexture("animations/interf0");
+    camInterfSpr.setTexture(camInterfTex);
+    camInterf.LoadAnimation(&camInterfSpr, camInterfFrames, 24, "interf");
 
     deathCard.setSize(Vector2f(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height));
     deathCard.setFillColor(Color(0, 0, 0, 255));
@@ -187,6 +213,12 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
     klosterSound.setBuffer(klosterBuffer);
     klosterSound.setVolume(100 * ((float)volume / 100));
 
+    for (int i = 0; i < 3; i++){
+        interfBuffers[i].loadFromFile("audio/FNAUTN_Interf" + to_string(i + 1) + ".wav");
+        interfSounds[i].setBuffer(interfBuffers[i]);
+        interfSounds[i].setVolume(20 * ((float)volume / 100));
+    }
+
     if (!ambience.openFromFile("audio/FNAUTN_Ambience1.wav")){
         cout<<"failed to load music"<<endl;
     }
@@ -233,7 +265,7 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
                 window.close();
             }
             ///UPDATE CONFIGURES UPDATE CONFIGURES UPDATE CONFIGURES
-            player.Configure(event, lDoorSpr, &office, &mapa, mPos, &camTransitionClock);
+            player.Configure(event, lDoorSpr, &office, &mapa, mPos, &camTransitionClock, &camStaticClock, &camStatic);
         }
         ///EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME EVERY FRAME
         if (!office.getDie()){
@@ -353,13 +385,11 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
                 window.draw(camTransitionSpr);
             }
             else{
-
                 if (player.getUpdatePlayer()){
                     player.PostAnimToggle(&office, &mapa);
                     player.resetUpdatePlayer();
                     player.resetInAnim();
                 }
-
                 if (updateCameras){
                     for (int i = 0; i < 4; i++){
                         if (globalProfes[i].getPos().x == player.getCurrentCam() || globalProfes[i].getLastRoom() == player.getCurrentCam()){
@@ -368,10 +398,35 @@ bool Draw(RenderWindow& window, Player player, Office office, Map mapa, Profe gl
                     }
                     if (!updateCameras){
                         mapa.setCameraSprite(player.getCurrentCam(), player.getLookingState());
+                        mapa.setUpdateInterf(true);
+                        interfSounds[randomNumber(3) - 1].play();
+                        camInterfClock.restart();
+                        camInterf.ManualReset();
                     }
                 }
                 gammaTexture.draw(cameraSpr);
                 window.draw(gammaSpr, &gammaShader);
+
+                if (mapa.getUpdateInterf()){
+                    if (camInterfClock.getElapsedTime().asSeconds() < camInterf.getDuration(24)){
+                       camInterf.PlayAnimation(24);
+                       window.draw(camInterfSpr);
+                    }
+                    else{
+                        mapa.setUpdateInterf(false);
+                    }
+                }
+
+                if (player.getUpdateStatic()){
+                    if (camStaticClock.getElapsedTime().asSeconds() < camStatic.getDuration(24)){
+                        camStatic.PlayAnimation(24);
+                        window.draw(camStaticSpr);
+                    }
+                    else{
+                        player.resetUpdateStatic();
+                    }
+                }
+
                 window.draw(mapa.getSprite());
                 window.draw(mapa.getToggleButton());
             }

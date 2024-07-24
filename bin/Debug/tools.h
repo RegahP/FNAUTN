@@ -24,7 +24,7 @@ bool CheckHover(FloatRect obj, Vector2i mPos){
 
 int randomNumber(int maxNumber){
 
-    int number = rand()%maxNumber + 1;
+    int number = rand() % maxNumber + 1;
     return number;
 }
 
@@ -32,7 +32,7 @@ Texture SetTexture(string textureName){
 
     Texture texture;
     string extension = ".png";
-    if (!texture.loadFromFile(textureName+extension))
+    if (!texture.loadFromFile(textureName + extension))
     {
         cout<<"failed to load "<<textureName<<endl;
     }
@@ -126,12 +126,10 @@ void DrawIntroCard (RenderWindow& window){
 
 void DisplayNightCard(RenderWindow& window, int night, float volume){
 
-    int num = night-1;
-
     Texture nightCardTex;
     Sprite nightCardSpr;
 
-    nightCardTex = SetTexture("textures/nightcard_"+ to_string(num));
+    nightCardTex = SetTexture("textures/nightcard_" + to_string(night - 1));
     nightCardSpr.setTexture(nightCardTex);
 
     SoundBuffer click2Buffer;

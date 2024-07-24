@@ -103,10 +103,10 @@ void night(RenderWindow& window, int nightNum, int volume){
 
     ///PROFES DIFFICULTIES
 
-    int klosterDiff[6] ={0, 0, 1, 2, 3, 4};//4
-    int maxiDiff[6] =   {0, 3, 0, 2, 5, 10};//13
-    int vastagDiff[6] = {0, 1, 5, 4, 7, 12};//14
-    int matiDiff[6] =   {0, 1, 2, 6, 5, 16};//18
+    int klosterDiff[6] = {0, 0, 1, 2, 3, 4};  //4
+    int maxiDiff[6] =    {0, 3, 0, 2, 5, 10}; //13
+    int vastagDiff[6] =  {0, 1, 5, 4, 7, 12}; //14
+    int matiDiff[6] =    {0, 1, 2, 6, 5, 16}; //18
 
     bool playing = true;
     Profe globalProfes[4];
@@ -115,10 +115,10 @@ void night(RenderWindow& window, int nightNum, int volume){
     while(playing){
         ///Night card
         //                                   i  r  s                             5.13
-        globalProfes[0].Configure("kloster", 0, 4, 4, klosterDiff[nightNum - 1], 5.13, globalProfes, globalRooms, matrixMap, emptyFRooms, emptyFSpots,      1, 1, klosterSequence, klosterSequenceSize, volume);    //4 4
-        globalProfes[1].Configure("mati",    1, 9, 1, matiDiff[nightNum - 1],    4.97, globalProfes, globalRooms, matrixMap, emptyFRooms, emptyFSpots,   1, 1, matiSequence, matiSequenceSize, volume);             //9 1
-        globalProfes[2].Configure("maxi",    2, 4, 1, maxiDiff[nightNum - 1],    3.15, globalProfes, globalRooms, matrixMap, maxiFRooms, maxiFSpots,     3, 3, maxiSequence, maxiSequenceSize, volume);             //4 1
-        globalProfes[3].Configure("vastag",  3, 6, 2, vastagDiff[nightNum - 1],  5.66, globalProfes, globalRooms, matrixMap, vastagFRooms, vastagFSpots, 4, 6, vastagSequence, vastagSequenceSize, volume);         //6 2
+        globalProfes[0].Configure("kloster", 0, 4, 4, klosterDiff[nightNum - 1], 5.13, globalProfes, globalRooms, matrixMap, emptyFRooms, emptyFSpots,      1, 1, klosterSequence, klosterSequenceSize, volume); //4 4
+        globalProfes[1].Configure("mati",    1, 9, 1, matiDiff[nightNum - 1],    4.97, globalProfes, globalRooms, matrixMap, emptyFRooms, emptyFSpots,   1, 1, matiSequence, matiSequenceSize, volume);          //9 1
+        globalProfes[2].Configure("maxi",    2, 4, 1, maxiDiff[nightNum - 1],    3.15, globalProfes, globalRooms, matrixMap, maxiFRooms, maxiFSpots,     3, 3, maxiSequence, maxiSequenceSize, volume);          //4 1
+        globalProfes[3].Configure("vastag",  3, 6, 2, vastagDiff[nightNum - 1],  5.66, globalProfes, globalRooms, matrixMap, vastagFRooms, vastagFSpots, 4, 6, vastagSequence, vastagSequenceSize, volume);      //6 2
 
         Map mapa(screen, volume);
 
@@ -239,10 +239,10 @@ void customNight(RenderWindow& window, int nightNum, int customDifs[], int volum
     vastagSequence[2] = Vector2i(7, 4);
 
     Profe globalProfes[4]; //            i  r  s                 5.13
-    globalProfes[0].Configure("kloster", 0, 4, 3, customDifs[0], 5.13, globalProfes, globalRooms, matrixMap, emptyFRooms, emptyFSpots,   1, 1, klosterSequence, klosterSequenceSize, volume); //4 4
-    globalProfes[1].Configure("mati",    1, 9, 1, customDifs[1], 4.97, globalProfes, globalRooms, matrixMap, emptyFRooms, emptyFSpots,   1, 1, matiSequence, matiSequenceSize, volume); //9 1
-    globalProfes[2].Configure("maxi",    2, 4, 1, customDifs[2], 3.15, globalProfes, globalRooms, matrixMap, maxiFRooms, maxiFSpots,     3, 3, maxiSequence, maxiSequenceSize, volume); //4 1
-    globalProfes[3].Configure("vastag",  3, 6, 2, customDifs[3], 5.66, globalProfes, globalRooms, matrixMap, vastagFRooms, vastagFSpots, 4, 6, vastagSequence, vastagSequenceSize, volume); //6 2
+    globalProfes[0].Configure("kloster", 0, 4, 4, customDifs[0], 5.13, globalProfes, globalRooms, matrixMap, emptyFRooms, emptyFSpots,   1, 1, klosterSequence, klosterSequenceSize, volume); //4 4
+    globalProfes[1].Configure("mati",    1, 9, 1, customDifs[1], 4.97, globalProfes, globalRooms, matrixMap, emptyFRooms, emptyFSpots,   1, 1, matiSequence, matiSequenceSize, volume);       //9 1
+    globalProfes[2].Configure("maxi",    2, 4, 1, customDifs[2], 3.15, globalProfes, globalRooms, matrixMap, maxiFRooms, maxiFSpots,     3, 3, maxiSequence, maxiSequenceSize, volume);       //4 1
+    globalProfes[3].Configure("vastag",  3, 6, 2, customDifs[3], 5.66, globalProfes, globalRooms, matrixMap, vastagFRooms, vastagFSpots, 4, 6, vastagSequence, vastagSequenceSize, volume);   //6 2
 
     Map mapa(screen, volume);
 

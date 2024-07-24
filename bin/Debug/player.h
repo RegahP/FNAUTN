@@ -5,6 +5,7 @@ class Player{
 
 private:
     bool isLookingAtCams = false;
+    bool updateStatic = false;
     bool updatePlayer = false;
     bool inAnim = false;
     int currentCam = 0;
@@ -38,11 +39,14 @@ public:
     bool getUpdatePlayer (){
         return updatePlayer;
     }
-    bool getAnimState (){
-        return inAnim;
-    }
     void resetUpdatePlayer (){
         updatePlayer = false;
+    }
+    bool getUpdateStatic (){
+        return updateStatic;
+    }
+    void resetUpdateStatic (){
+        updateStatic = false;
     }
     void resetInAnim (){
         inAnim = false;
@@ -111,8 +115,10 @@ public:
         if (CheckHover(movingHitbox, mPos)){
             if (event.mouseButton.button == Mouse::Left){
                 if (event.type == Event::MouseButtonPressed){
-                    office->setLightState(true);
-                    office->setGeneratorUsage(isLookingAtCams);
+                    if (!inAnim){
+                        office->setLightState(true);
+                        office->setGeneratorUsage(isLookingAtCams);
+                    }
                 }
             }
         }
@@ -152,7 +158,7 @@ public:
         }
     }
 
-    void CheckClickCams(Event event, Map* mapa, Vector2i mPos){
+    void CheckClickCams(Event event, Map* mapa, Vector2i mPos, Clock* camStaticClock, Animation* camStatic){
         for (int i = 0; i < 10; i++){
             if (CheckHover(mapa->getHitbox(i), mPos)){
                 if (event.mouseButton.button == Mouse::Left){
@@ -162,12 +168,18 @@ public:
                             mapa->setLastCam(1, i);
                             setCurrentCam(mapa->getLastCam(1));
                             click2.play();
+                            camStaticClock->restart();
+                            camStatic->ManualReset();
+                            updateStatic = true;
                         }
                         else if (mapa->getToggleButtonState() < 2 && i < 7){
                             mapa->setMapSprite(i);
                             mapa->setLastCam(0, i);
                             setCurrentCam(mapa->getLastCam(0));
                             click2.play();
+                            camStaticClock->restart();
+                            camStatic->ManualReset();
+                            updateStatic = true;
                         }
                         mapa->setCameraSprite(currentCam, isLookingAtCams);
                     }
@@ -191,6 +203,9 @@ public:
                     mapa->ToggleButton();
                     mapa->setCameraSprite(currentCam, isLookingAtCams);
                     click3.play();
+                    camStaticClock->restart();
+                    camStatic->ManualReset();
+                    updateStatic = true;
                 }
             }
         }
@@ -209,12 +224,12 @@ public:
         }
     }
 
-    void Configure(Event event, Sprite lDoorSpr, Office* office, Map* mapa, Vector2i mPos, Clock* camTransitionClock){
+    void Configure(Event event, Sprite lDoorSpr, Office* office, Map* mapa, Vector2i mPos, Clock* camTransitionClock, Clock* camStaticClock, Animation* camStatic){
 
         if (!office->getDie()){
             CheckToggleLookingState(event, camTransitionClock);
-            if (isLookingAtCams){
-                CheckClickCams(event, mapa, mPos);
+            if (isLookingAtCams && !inAnim){
+                CheckClickCams(event, mapa, mPos, camStaticClock, camStatic);
             }
             else{
                 CheckHoldLight(event, lDoorSpr, office, mPos);

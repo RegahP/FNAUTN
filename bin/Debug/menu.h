@@ -44,6 +44,22 @@ void Menu(RenderWindow& window){
     RectangleShape creditsBG;
 
     RectangleShape fadeInOut;
+
+    Texture camInterfTex;
+    Sprite camInterfSpr;
+    Texture camInterfFrames[24];
+
+    float waitToFlicker;
+    bool flickering;
+    Clock flickerClock;
+    Clock camInterfClock;
+    Animation camInterf;
+
+    camInterfTex = SetTexture("animations/interf0");
+    camInterfSpr.setTexture(camInterfTex);
+    camInterfSpr.setColor(Color(255, 255, 255, 128));
+    camInterf.LoadAnimation(&camInterfSpr, camInterfFrames, 24, "interf");
+
     float fadeValue;
     float fadeSpeed;
     float fadeVolume;
@@ -91,6 +107,9 @@ void Menu(RenderWindow& window){
     bool showCredits = false;
     bool showSettings = false;
 
+    menuBGTex.setSmooth(true);
+    menuSmokeTex.setSmooth(true);
+
     menuTextSpr.setTexture(menuTextTex);
     menuBGSpr.setTexture(menuBGTex);
     menuSmokeSpr.setTexture(menuSmokeTex);
@@ -109,7 +128,10 @@ void Menu(RenderWindow& window){
     creditsBG.setSize(Vector2f(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height));
     creditsBG.setFillColor(Color(0, 0, 0, 128));
     fadeInOut.setSize(Vector2f(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height));
-    fadeInOut.setFillColor(Color(0, 0, 0, 255));
+    fadeInOut.setFillColor(Color::Black);
+
+    flickering = false;
+    waitToFlicker = 1;
 
     float scaleX = VideoMode::getDesktopMode().width / menuTextSpr.getGlobalBounds().width;
     float scaleY = VideoMode::getDesktopMode().height / menuTextSpr.getGlobalBounds().height;
@@ -138,7 +160,7 @@ void Menu(RenderWindow& window){
     continueNight.setFont(font);
     continueNight.setPosition(101*scaleX, 464*scaleY);
     continueNight.setCharacterSize(24);
-    continueNight.setFillColor(sf::Color::White);
+    continueNight.setFillColor(Color::White);
 
     FloatRect newGameButton = FloatRect(0*scaleX, 278*scaleY, 464*scaleX, 112*scaleY);
     FloatRect continueButton = FloatRect(0*scaleX, 390*scaleY, 464*scaleX, 112*scaleY);
@@ -166,22 +188,22 @@ void Menu(RenderWindow& window){
     txtVolume.setFont(font);
     txtVolume = UpdateDif(txtVolume, volume, txtVolumePos, true);
     txtVolume.setCharacterSize(64);
-    txtVolume.setFillColor(sf::Color::White);
+    txtVolume.setFillColor(Color::White);
     txtGamma.setFont(font);
     txtGamma = UpdateDif(txtGamma, gamma, Vector2f(txtGammaPos.x - 40, txtGammaPos.y));
     txtGamma.setCharacterSize(64);
-    txtGamma.setFillColor(sf::Color::White);
+    txtGamma.setFillColor(Color::White);
 
     fadeValue = 255;
     fadeSpeed = 0.3;
     fadeVolume = 0;
 
     progress = ReadProgress();
-    progress.setNight(1);
-    progress.setNight(5);
-    progress.setNight5();
-    progress.setNight6();
-    progress.setCustomNight();
+    //progress.setNight(1);
+    //progress.setNight(5);
+    //progress.setNight5();
+    //progress.setNight6();
+    //progress.setCustomNight();
 
     click1.setVolume(15 * ((float)progress.getVolume() / 100));
     introSound.setVolume(25 * ((float)progress.getVolume() / 100));
@@ -319,11 +341,36 @@ void Menu(RenderWindow& window){
             }
         }
 
-        menuBGParallax = Vector2f((-(float)mPos.x / parallaxBG) + menuBGSpr.getLocalBounds().width / 2 * scaleX + menuBGSpr.getLocalBounds().width / (parallaxBG * 4 * scaleX), (-(float)mPos.y / parallaxBG) + menuBGSpr.getLocalBounds().height / 2 * scaleY + menuBGSpr.getLocalBounds().height / (parallaxBG * 4) * scaleY);
-        menuSmokeParallax = Vector2f((-(float)mPos.x / parallaxSmoke) + menuSmokeSpr.getLocalBounds().width / 2  * scaleX + menuSmokeSpr.getLocalBounds().width / (parallaxSmoke * 4 * scaleX), (-(float)mPos.y / parallaxSmoke) + menuSmokeSpr.getLocalBounds().height / 2  * scaleY + menuSmokeSpr.getLocalBounds().height / (parallaxSmoke * 4) * scaleY);
+        menuBGParallax = Vector2f(
+                                  (-(float)mPos.x / parallaxBG) + menuBGSpr.getLocalBounds().width / 2 * scaleX + menuBGSpr.getLocalBounds().width / (parallaxBG * 4 * scaleX),
+                                  (-(float)mPos.y / parallaxBG) + menuBGSpr.getLocalBounds().height / 2 * scaleY + menuBGSpr.getLocalBounds().height / (parallaxBG * 4) * scaleY);
+        menuSmokeParallax = Vector2f(
+                                     (-(float)mPos.x / parallaxSmoke) + menuSmokeSpr.getLocalBounds().width / 2  * scaleX + menuSmokeSpr.getLocalBounds().width / (parallaxSmoke * 4 * scaleX),
+                                     (-(float)mPos.y / parallaxSmoke) + menuSmokeSpr.getLocalBounds().height / 2  * scaleY + menuSmokeSpr.getLocalBounds().height / (parallaxSmoke * 4) * scaleY);
         menuBGSpr.setPosition(menuBGParallax);
         menuSmokeSpr.setPosition(menuSmokeParallax);
+
         window.draw(menuBGSpr);
+
+        if (flickerClock.getElapsedTime().asSeconds() > waitToFlicker){
+            flickerClock.restart();
+            camInterfClock.restart();
+            waitToFlicker = (float)(randomNumber(4 * 10) / 10) - 1;
+            camInterf.ManualReset();
+            camInterf.setStartFrame(randomNumber(18) - 1);
+            flickering = true;
+        }
+
+        if (flickering){
+            if (camInterfClock.getElapsedTime().asSeconds() < camInterf.getDuration(24)){
+                camInterf.PlayAnimation(24);
+                window.draw(camInterfSpr);
+            }
+            else{
+                flickering = false;
+            }
+        }
+
         window.draw(menuSmokeSpr);
 
         if (!showCredits && !showSettings){

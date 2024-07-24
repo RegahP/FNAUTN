@@ -25,7 +25,16 @@ private:
     Profe* globalProfes;
     Room* globalRooms;
 
+    bool updateInterf = false;
+
 public:
+    bool getUpdateInterf (){
+        return updateInterf;
+    }
+    void setUpdateInterf (bool state){
+        updateInterf = state;
+    }
+
     FloatRect getHitbox(int ID){
         return hitboxes[ID];
     }
